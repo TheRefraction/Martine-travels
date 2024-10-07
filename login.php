@@ -4,10 +4,10 @@
         <title>Martine's Travels</title>
     </head>
     <body>
-        <h1>connexion to Martine's Travels</h1>
+        <h1> Login to Martine's Travels</h1>
         <form method="post" action="url">
             <label>
-                login : <input type="text" name="login" />
+                Login : <input type="text" name="login" />
             </label>
             <br />
             <label>
@@ -16,7 +16,6 @@
             <br />
             <input type="submit" value="Submit" />
         </form>
-
     </body>
 
 </html>
