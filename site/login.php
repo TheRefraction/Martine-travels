@@ -17,6 +17,7 @@
             <br />
             <input type="submit" value="Submit" />
         </form>
+        <p>New clients ? <a href="info_client.php"> Create an account </a></p>
     </body>
 
 </html>
