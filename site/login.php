@@ -6,9 +6,9 @@
 	
     <body>
         <h1> Log into your Martine Travels account</h1>
-        <form method="post" action="url">
+        <form method="post" action="process_login.php">
             <label>
-                Login : <input type="text" name="login" />
+                Email : <input type="text" name="login" />
             </label>
             <br />
             <label>
