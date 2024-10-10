@@ -4,7 +4,7 @@
     </head>
     <body>
     <h1>Creation of a new account</h1>
-    <form method="post" action="add_client.php">
+    <form method="post" action="process_signup.php">
         <label>
             First Name : <input type="text" name="First_name" />
         </label>
@@ -37,9 +37,5 @@
         <input type="submit" value="Submit" />
         </form>
     </body>
-
-
-
-
 </html>
 

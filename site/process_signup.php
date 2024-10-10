@@ -10,7 +10,8 @@ $password_confirmation = $_POST['password_confirmation'];
 
 if ($password !== $password_confirmation) {
     echo "Password are not the same. \n";
-    echo " Try again <a href='info_client.php'> Here </a>.";
+    echo " Try again <a href='signup.php'> Here </a>.";
+
 } else {
     $Password_confirmation = password_hash($password, PASSWORD_BCRYPT);
 
