@@ -10,7 +10,7 @@ $password_confirmation = $_POST['password_confirmation'];
 
 if ($password !== $password_confirmation) {
     echo "Password are not the same. \n";
-    echo " Try again <a href='signup.php'> Here </a>.";
+    echo " Try again <a href='signup.html'> Here </a>.";
 
 } else {
     $Password_confirmation = password_hash($password, PASSWORD_BCRYPT);
@@ -25,7 +25,7 @@ if ($password !== $password_confirmation) {
     $req->execute([$User_ID, $Email, $password_confirmation]);
 
     echo "Inscription successful, you can go to the  ";
-    echo " <a href='login.php'> Login page </a>.";
+    echo " <a href='login.html'> Login page </a>.";
 }
 die();
 ?>
