@@ -4,5 +4,7 @@
 
     $bdd = new PDO("mysql:host=localhost;dbname=Martine_travels;charset=utf8", "root", "");
 
+    header("Location: home.php");
+
     exit();
 ?>

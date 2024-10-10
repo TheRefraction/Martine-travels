@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h1> welcome to Martine travels</h1>
+    <h1> Welcome to Martine travels</h1>
     <input type="submit" value="parametre" />
     <br>
     <input type="submit" value="reservation" />
