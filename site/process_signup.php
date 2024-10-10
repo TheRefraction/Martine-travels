@@ -15,7 +15,7 @@ if ($password !== $password_confirmation) {
 } else {
     $Password_confirmation = password_hash($password, PASSWORD_BCRYPT);
 
-    $bdd = new PDO("mysql:host=localhost;dbname=Martine_travels;charset=utf8", "root", "");
+    $bdd = new PDO("mysql:host=83.113.214.244;dbname=martine_travels;charset=utf8", "martinesql", "martine");
     $req = $bdd->prepare("INSERT INTO User(First_name, Last_name, Email, Phone, Birth_date) VALUES (?,?,?,?,?);");
 
     $req->execute([$First_name, $Last_name, $Email, $Phone, $Birth_date]);
