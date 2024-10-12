@@ -1,5 +1,156 @@
-*{
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f0ff;
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #d6c7f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+header a {
+    text-decoration: none;
     color: black;
-    font-size: 24px
+    margin: 0 15px;
+}
+
+header a:hover {
+    background: #e6def7;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.logo {
+    height: 70px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.section-voyages {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.section-voyages h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    color: #341d53;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.gallery-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0.2, 1);
+    width: 280px;
+    text-align: center;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.gallery-item p {
+    padding: 10px;
+    background-color: #d6c7f5;
+    margin: -5px;
+
+    color: #4c2b7f;
+}
+
+.login_section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 500px;
+    text-align: center;
+}
+
+.login_section h1 {
+    font-size: 26px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    color: #341d53;
+}
+
+.login_section label {
+    display: block;/
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+
+.login_section input[type=text]
+.login_section input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.login_section input[type="submit"] {
+    background-color: #5e3ea1;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+
+.login_section input[type="submit"]:hover {
+    background-color: #8f6ce6;
+    text-decoration: underline;
+}
+
+.input-field {
+    border-radius: 3px;
+}
+
+.signup-prompt {
+    margin-top: 15px;
+}
+
+.signup-prompt a {
+    color: #5e3ea1;
+    text-decoration: none;
+}
+
+.signup-prompt a:hover {
+    color: #9e03e1;
+    text-decoration: underline;
 }
 
