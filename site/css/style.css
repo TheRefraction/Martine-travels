@@ -45,6 +45,11 @@ header a:hover {
     margin-right: 10px;
     vertical-align: middle;
 }
+.logo2 {
+    height: 70px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
 .section-voyages {
     padding: 40px 20px;
     text-align: center;
@@ -112,7 +117,7 @@ header a:hover {
 }
 
 
-.login_section input[type=text]
+.login_section input[type=text],
 .login_section input[type="password"] {
     width: 100%;
     padding: 10px;
