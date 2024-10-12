@@ -1,31 +1,29 @@
 <?php
+    include("connection.php");
 
-$Last_name = $_POST['Last_name'];
-$First_name = $_POST['First_name'];
-$Phone = $_POST['Phone'];
-$Email = $_POST['Email'];
-$password = $_POST['password'];
-$Birth_date = $_POST['Birth_date'];
-$password_confirmation = $_POST['password_confirmation'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $birthday = $_POST['birthday'];
+    $phone = $_POST['phone'];
+    $passwd = $_POST['passwd'];
+    $passwd_conf = $_POST['passwd_conf'];
 
-if ($password !== $password_confirmation) {
-    echo "Password are not the same. \n";
-    echo " Try again <a href='signup.html'> Here </a>.";
+    if ($passwd <> $passwd_conf) {
+        echo "Passwords are not the same. \n";
+        echo " Please try again <a href='signup.html'> Here </a>.";
 
-} else {
-    $Password_confirmation = password_hash($password, PASSWORD_BCRYPT);
+    } else {
+        $bdd = get_dbhandle();
 
-    $bdd = new PDO("mysql:host=83.113.214.244;dbname=martine_travels;charset=utf8", "martinesql", "martine");
-    $req = $bdd->prepare("INSERT INTO User(First_name, Last_name, Email, Phone, Birth_date) VALUES (?,?,?,?,?);");
+        $passwd_conf = password_hash($passwd, PASSWORD_BCRYPT);
 
-    $req->execute([$First_name, $Last_name, $Email, $Phone, $Birth_date]);
+        $req = $bdd->prepare("INSERT INTO User(First_name, Last_name, Email, Password, Phone, Birth_date) VALUES (?,?,?,?,?,?);");
 
-    $User_ID = $bdd->lastInsertId();
-    $req = $bdd->prepare("INSERT INTO Login(User_ID, Username, Password) VALUES (?,?,?);");
-    $req->execute([$User_ID, $Email, $password_confirmation]);
+        $req->execute([$fname, $lname, $email, $passwd_conf, $phone, $birthday]);
 
-    echo "Inscription successful, you can go to the  ";
-    echo " <a href='login.html'> Login page </a>.";
-}
-die();
+        echo "Registration successful.";
+        echo "You may now <a href='login.html'>log into your account</a>.";
+    }
+    die();
 ?>
