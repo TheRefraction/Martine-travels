@@ -5,39 +5,48 @@
         <link href ="style.css" rel="stylesheet">
     </head>
     <body>
+    <header>
+        <a ><img src="image/Logo_Martine.png" alt="Logo de l'agence" class="logo"></a>
+        <a href =index.html> Accueil  </a>
+
+        <a href ="login.html"> Connexion </a>
+    </header>
+    <section class =login_section>
     <h1>Creation of a new account</h1>
-    <form method="post" action="process_signup.php">
+
+    <form method="post" action="process_signup.php" class="login-form">
         <label>
-            First Name : <input type="text" name="First_name" />
+            First Name : <input type="text" name="First_name" class="input-field" />
         </label>
         <br>
         <label>
-            Last Name : <input type="text" name="Last_name" />
+            Last Name : <input type="text" name="Last_name" class="input-field" />
         </label>
         <br>
         <label>
-            Email : <input type="email" placeholder="email@domain.com" name="Email" required="required" />
+            Email : <input type="email" placeholder="email@domain.com" name="Email" class="input-field" required="required" />
         </label>
         <br>
         <label>
-            Phone number : <input type="number" placeholder="0545654751" name="Phone" required="required" />
+            Phone number : <input type="number" placeholder="0545654751" name="Phone" class="input-field" required="required" />
         </label>
         <br>
         <label>
-            Birthdate : <input type="date" name="Birth_date" required="required" />
+            Birthdate : <input type="date" name="Birth_date" class="input-field" required="required" />
         </label>
         <br>
         <label>
-            Password : <input type="password" name="password" required="required" />
+            Password : <input type="password" name="password" class="input-field" required="required" />
         </label>
         <br>
         <label>
-            Password's Confirmation : <input type="password" name="password_confirmation" required="required" />
+            Password's Confirmation : <input type="password" name="password_confirmation" class="input-field" required="required" />
         </label>
         <br>
         <br>
         <input type="submit" value="Submit" />
         </form>
+        </section>
     </body>
 </html>
 
