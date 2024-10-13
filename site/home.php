@@ -23,30 +23,15 @@
     <h2>Your old reservations</h2>
 
     <?php
-    /*
-    $userid=3 ; //Ici mettre l'id de l'user de la page
+
+    include("connection.php");
+    $bdd = get_dbhandle();
 
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    echo "Connected successfully";
-
-    //Connect to date base
-    ////$bdd = new PDO("mysql:host=localhost;dbname=martine_travels;charset=utf8", "root", "");
 
     //Acquisition of data from previous packages
     //$req = $bdd->prepare("SELECT * FROM `previouspackage` Pr INNER JOIN 'package' Pa ON Pr.Package_ID = Pa.ID;");
     //$req->execute();
-    */
     ?>
 
     <table>
