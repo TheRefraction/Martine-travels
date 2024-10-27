@@ -1,5 +1,6 @@
 <?php
     include("connection.php");
+    $_SESSION['email']=$_POST['email'];
 
     $email = $_POST['email'];
     $password = $_POST['password'];
