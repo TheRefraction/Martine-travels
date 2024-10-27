@@ -117,16 +117,6 @@ header a:hover {
 }
 
 
-.login_section input[type=text],
-.login_section input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
 .login_section input[type="submit"] {
     background-color: #5e3ea1;
     color: white;
