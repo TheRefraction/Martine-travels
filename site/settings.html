@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Settings</title>
+        <link href ="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+    <section class=login_section>
+        <h1>Modification of your personal data</h1>
+
+        <form method="post" action="settings.php">
+            <label>
+                Last name : <input type="text" placeholder="" name="lname" class="input-field" required="required" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\-]+" title ="Must contain only letters or hyphens"/>
+            </label> <br>
+
+            <label>
+                Email : <input type="email" placeholder="" name="email" class="input-field" required="required" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"/>
+            </label> <br>
+
+            <label>
+                Birthdate : <input type="date" placeholder="" id="birthday" name="birthday" class="input-field" required="required" min="1900-01-01"/>
+            </label> <br>
+
+            <label>
+                Phone number : <input type="tel" placeholder="" name="phone" class="input-field" required="required"/>
+            </label> <br>
+
+            <label>
+                Password : <input type="password" name="passwd" class="input-field" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,128}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
+            </label> <br>
+
+            <br>
+            <input type="submit" value="Confirmation"/>
+
+        </form>
+    </section>
+
+    </body>
+    <script src="draw_header.js"></script>
+</html>
