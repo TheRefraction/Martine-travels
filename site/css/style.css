@@ -150,3 +150,26 @@ header a:hover {
     text-decoration: underline;
 }
 
+.table_design {
+    border-collapse: collapse;
+    margin: 25px 0;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+.table_design thead tr{
+    background-color: 	#ACFFFC;
+    text-align: left;
+    font-size: large;
+}
+
+.table_design th, .table_design td {
+    padding: 12px 15px;
+}
+.table_design tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table_design tbody tr:last-of-type {
+    border-bottom: 2px solid #ACFFFC;
+}
