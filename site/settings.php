@@ -3,7 +3,7 @@ session_start();
 include("connection.php");
 
 if (!isset($_SESSION['email'])) {
-    header("Location: signin.html");
+    header("Location: signin.php");
     exit();
 }
 
@@ -61,9 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             First name : <input type="text"  name="fname" class="input-field" required="required" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\-]+" title ="Must contain only letters or hyphens" value="<?= htmlspecialchars($userData['First_name']) ?>" />
         </label> <br>
 
-
         <label>
-            Email:<input type="email" name="email" class="input-field" required="required" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="<?= htmlspecialchars($userData['Email']) ?>" readonly/>
+            Email : <input type="email" name="email" class="input-field" required="required" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="<?= htmlspecialchars($userData['Email']) ?>" readonly/>
         </label> <br>
 
         <label>
@@ -85,5 +84,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </section>
 
 </body>
-<script src="draw_header.js"></script>
+    <script src="draw_header.js"></script>
 </html>

@@ -7,6 +7,8 @@
     </head>
 	
     <body>
+        <?php include_once('header.php');?>
+
         <section class="login_section">
             <h1>Sign in</h1>
 
@@ -22,9 +24,7 @@
                 <input type="submit" value="Sign in" class="submit-btn"/>
             </form>
 
-            <p class="signup-prompt">Don't have an account? Sign up <a href="signup.html">here</a></p>
+            <p class="signup-prompt">Don't have an account? Sign up <a href="signup.php">here</a></p>
         </section>
-
-        <script src="draw_header.js"></script>
     </body>
 </html>

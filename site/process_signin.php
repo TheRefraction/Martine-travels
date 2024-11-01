@@ -14,7 +14,7 @@
     $data = $req->fetch();
 
     if(empty($data)) {
-        echo "Authentification failed!\nPlease try again <a href='signin.html'>Here</a>.";
+        echo "Authentification failed!\nPlease try again <a href='signin.php'>Here</a>.";
         exit();
     }
 
@@ -26,10 +26,10 @@
             header("Location: admin.html");
             exit();
         } else {
-            header("Location: home.php");
+            header("Location: account.php");
             exit();
         }
     } else {
-        echo "Authentification failed!\nPlease try again <a href='signin.html'>Here</a>.";
+        echo "Authentification failed!\nPlease try again <a href='signin.php'>Here</a>.";
     }
 ?>

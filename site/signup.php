@@ -7,6 +7,8 @@
     </head>
 
     <body>
+        <?php include_once('header.php');?>
+
         <section class=login_section>
             <h1>Sign up</h1>
 
@@ -61,7 +63,5 @@
             today = yyyy + '-' + mm + '-' + dd;
             document.getElementById("birthday").setAttribute("max", today);
         </script>
-
-        <script src="draw_header.js"></script>
     </body>
 </html>

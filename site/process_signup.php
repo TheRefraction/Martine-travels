@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($passwd <> $passwd_conf) {
         echo "Passwords are not the same.\n";
-        echo " Please try again <a href='signup.html'>Here</a>.";
+        echo " Please try again <a href='signup.php'>Here</a>.";
     } else {
         $bdd = get_dbhandle();
 
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = $req->fetch();
 
         if (!empty($data)) {
-            echo "Email address already in use!\nPlease try again <a href='signup.html'>Here</a>.";
+            echo "Email address already in use!\nPlease try again <a href='signup.php'>Here</a>.";
             exit();
         }
 
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = $req->fetch();
 
         if (!empty($data)) {
-            echo "Phone number already in use!\nPlease try again <a href='signup.html'>Here</a>.";
+            echo "Phone number already in use!\nPlease try again <a href='signup.php'>Here</a>.";
             exit();
         }
 
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $req->execute([$fname, $lname, $email, $passwd_conf, $phone, $birthday]);
 
         echo "Registration successful.\n";
-        echo "You may now <a href='signin.html'>log into your account</a>.";
+        echo "You may now <a href='signin.php'>log into your account</a>.";
     }
     die();
 }
