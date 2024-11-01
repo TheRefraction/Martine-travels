@@ -1,3 +1,24 @@
+<?php
+session_start();
+include("connection.php");
+if (!isset($_SESSION['email'])) {
+    header("Location: signin.html");
+    exit();
+}
+
+
+$email = $_SESSION['email'];
+
+$bdd = get_dbhandle();
+$req = $bdd->prepare("SELECT First_name FROM User WHERE Email = ?");
+$req->execute([$email]);
+$userName = $req->fetch();
+
+
+//Acquisition of data from previous packages
+//$req = $bdd->prepare("SELECT * FROM `previouspackage` Pr INNER JOIN 'package' Pa ON Pr.Package_ID = Pa.ID;");
+//$req->execute();
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,8 +32,13 @@
 
 
 <section class ="login_section">
-    <h1> Welcome to your home page</h1><br>
 
+    <h1>Welcome back <?php echo htmlspecialchars($userName['First_name']);?> ! What do you want to do today?</h1>
+
+    <label>
+        <a href=settings.php>Settings</a>
+        <br>
+    </label> <br>
     <label>
         <input type="submit" name='home_ajout' value="Add a reservation" /><br>
     </label><br>
@@ -22,15 +48,7 @@
 
     <h2>Your old reservations</h2>
 
-    <?php
 
-    include("connection.php");
-    $bdd = get_dbhandle();
-
-    //Acquisition of data from previous packages
-    //$req = $bdd->prepare("SELECT * FROM `previouspackage` Pr INNER JOIN 'package' Pa ON Pr.Package_ID = Pa.ID;");
-    //$req->execute();
-    ?>
 
     <table>
         <tr>

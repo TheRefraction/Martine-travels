@@ -26,7 +26,7 @@
             header("Location: admin.html");
             exit();
         } else {
-            header("Location: home.html");
+            header("Location: home.php");
             exit();
         }
     } else {
