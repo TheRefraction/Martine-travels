@@ -1,6 +1,6 @@
-
 <?php
     session_start();
+
     include("connection.php");
     $_SESSION['email']=$_POST['email'];
 
@@ -14,7 +14,7 @@
     $data = $req->fetch();
 
     if(empty($data)) {
-        echo "Authentification failed!\nPlease try again <a href='signin.php'>Here</a>.";
+        echo "Authentication failed!\nPlease try again <a href='signin.php'>Here</a>.";
         exit();
     }
 
@@ -24,12 +24,11 @@
 
         if($data['Is_admin']) {
             header("Location: admin.html");
-            exit();
         } else {
             header("Location: account.php");
-            exit();
         }
+        exit();
     } else {
-        echo "Authentification failed!\nPlease try again <a href='signin.php'>Here</a>.";
+        echo "Authentication failed!\nPlease try again <a href='signin.php'>Here</a>.";
     }
 ?>

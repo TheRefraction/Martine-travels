@@ -1,12 +1,12 @@
 <?php
-    session_start();
     include("connection.php");
+
+    if(session_status() === PHP_SESSION_NONE) session_start();
 
     if (!isset($_SESSION['email'])) {
         header("Location: signin.php");
         exit();
     }
-
 
     $email = $_SESSION['email'];
 
@@ -14,7 +14,6 @@
     $req = $bdd->prepare("SELECT * FROM User WHERE Email = ?");
     $req->execute([$email]);
     $userData = $req->fetch();
-
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $lname = $_POST['lname'];
@@ -24,9 +23,10 @@
         $fname = $_POST['fname'];
 
         if (empty($lname) || empty($birthday) || empty($phone) || empty($fname)) {
-            echo "all the fiels except to change password need to be complet";
+            echo "Cannot have empty fields (except for password) in this form!";
             exit();
         }
+
         if (!empty($passwd)){
             $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
             $updateReq = $bdd->prepare("UPDATE User SET Password = ? WHERE Email = ?");

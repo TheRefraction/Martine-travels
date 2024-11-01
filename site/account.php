@@ -1,30 +1,27 @@
 <?php
-    session_start();
     include("connection.php");
+
+    if(session_status() === PHP_SESSION_NONE) session_start();
+
     if (!isset($_SESSION['email'])) {
         header("Location: signin.php");
         exit();
     }
-
 
     $email = $_SESSION['email'];
 
     $bdd = get_dbhandle();
     $req = $bdd->prepare("SELECT First_name FROM User WHERE Email = ?");
     $req->execute([$email]);
+
     $userName = $req->fetch();
-
-
-    //Acquisition of data from previous packages
-    //$req = $bdd->prepare("SELECT * FROM `previouspackage` Pr INNER JOIN 'package' Pa ON Pr.Package_ID = Pa.ID;");
-    //$req->execute();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Martine Travels - Home</title>
+        <title>Martine Travels - My account</title>
         <link href ="css/style.css" rel="stylesheet">
     </head>
 
@@ -33,12 +30,7 @@
         <?php include_once('header.php');?>
 
         <section class ="login_section">
-            <h1>Welcome back <?php echo htmlspecialchars($userName['First_name']);?> ! What do you want to do today?</h1>
-
-            <label>
-                <a href=settings.php>Settings</a>
-                <br>
-            </label>
+            <h1>Welcome back <?php echo htmlspecialchars($userName['First_name']);?>! Where would you like to go?</h1>
             <br>
 
             <label>

@@ -1,5 +1,5 @@
 <?php
-    function get_dbhandle()
+    function get_dbhandle(): PDO
     {
         $host = "90.125.194.95";
         $dbname = "martine_travels";
