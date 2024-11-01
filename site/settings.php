@@ -23,15 +23,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passwd = $_POST['passwd'];
     $fname = $_POST['fname'];
 
-    if (empty($lname) || empty($birthday) || empty($phone) || empty($passwd) || empty($fname)) {
-        echo "all the fiels need to be complet";
+    if (empty($lname) || empty($birthday) || empty($phone) || empty($fname)) {
+        echo "all the fiels except to change password need to be complet";
         exit();
     }
+    if (!empty($passwd)){
+        $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
+        $updateReq = $bdd->prepare("UPDATE User SET Password = ? WHERE Email = ?");
+        $updateReq->execute([$hashedPassword]);
+    }
 
-    $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
 
-    $updateReq = $bdd->prepare("UPDATE User SET First_name = ?, Last_name = ?, Birth_date = ?, Phone = ?, Password = ? WHERE Email = ?");
-    $updateReq->execute([$fname, $lname, $birthday, $phone, $hashedPassword, $email]);
+    $updateReq = $bdd->prepare("UPDATE User SET First_name = ?, Last_name = ?, Birth_date = ?, Phone = ? WHERE Email = ?");
+    $updateReq->execute([$fname, $lname, $birthday, $phone, $email]);
 
     echo "Your information has been updated successfully.";
     exit();
@@ -71,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </label> <br>
 
         <label>
-            Password : <input type="text" name="passwd" placeholder="enter password" class="input-field" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,128}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
+            Change Password : <input type="text" name="passwd" placeholder="only to change password" class="input-field"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,128}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
         </label> <br>
 
         <br>
