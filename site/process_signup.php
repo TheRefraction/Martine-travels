@@ -1,6 +1,6 @@
 <?php
     include("connection.php");
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $email = $_POST['email'];
@@ -19,7 +19,7 @@
         $req->execute([$email]);
         $data = $req->fetch();
 
-        if(!empty($data)) {
+        if (!empty($data)) {
             echo "Email address already in use!\nPlease try again <a href='signup.html'>Here</a>.";
             exit();
         }
@@ -28,7 +28,7 @@
         $req->execute([$phone]);
         $data = $req->fetch();
 
-        if(!empty($data)) {
+        if (!empty($data)) {
             echo "Phone number already in use!\nPlease try again <a href='signup.html'>Here</a>.";
             exit();
         }
@@ -42,4 +42,5 @@
         echo "You may now <a href='signin.html'>log into your account</a>.";
     }
     die();
+}
 ?>

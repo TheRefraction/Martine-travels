@@ -1,4 +1,6 @@
+
 <?php
+    session_start();
     include("connection.php");
     $_SESSION['email']=$_POST['email'];
 
@@ -22,8 +24,10 @@
 
         if($data['Is_admin']) {
             header("Location: admin.html");
+            exit();
         } else {
             header("Location: home.html");
+            exit();
         }
     } else {
         echo "Authentification failed!\nPlease try again <a href='signin.html'>Here</a>.";
