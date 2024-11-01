@@ -18,7 +18,7 @@
                 </label> <br>
 
                 <label>
-                    Password : <input type="password" name="password" class="input-field" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,128}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
+                    Password : <input type="password" name="password" class="input-field" required="required"  />
                 </label> <br>
 
                 <input type="submit" value="Sign in" class="submit-btn"/>
