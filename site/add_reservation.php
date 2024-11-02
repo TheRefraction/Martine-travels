@@ -1,3 +1,16 @@
+<?php
+include("connection.php");
+
+if(session_status() === PHP_SESSION_NONE) session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: signin.php");
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,6 +22,88 @@
 
     <body>
         <?php include_once('header.php');?>
+
+        <section class ="login_section">
+
+        <h1>Reservation for your vacations</h1><br>
+
+
+        <label for="options">Please select an option :</label><br>
+
+            <!-- Custom or premade-->
+        <select id="options" onchange="afficherLabel()">
+            <option value="">-- Choose an option --</option>
+            <option value="custom">Custom made package</option>
+            <option value="premade">Package Premade</option>
+        </select>
+
+
+        <!-- Custom -->
+        <div id="labelCustom" class="label" hidden>
+            <label><br>
+                <label for="options">Choose where you want to go :</label><br>
+                <select id="options" onchange="afficherLabel()">
+                    <option value="">-- Choisissez une option --</option>
+
+
+                    <?php
+
+                    $bdd = get_dbhandle();
+                    $req = $bdd->prepare("SELECT Name From Country;");
+                    $req->execute();
+
+                    while ($data = $req->fetch()) {
+                        echo '<option value="' . htmlspecialchars($data["ID"]) . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                    }
+                    ?>
+
+                </select>
+            </label>
+        </div>
+
+
+            <!-- Premade-->
+        <div id="labelPremade" class="label" hidden>
+            <br>
+            <label for="options">Choose the package</label><br>
+            <select id="options" onchange="afficherLabel()">
+                <option value="">-- Choisissez une option --</option>
+
+
+                <?php
+
+                //$bdd = get_dbhandle();
+                $req = $bdd->prepare("SELECT De.Name From Package Pa INNER JOIN Destination De ON De.ID = Pa.Destination_ID;");
+                $req->execute();
+
+                while ($data = $req->fetch()) {
+                    echo '<option value="' . htmlspecialchars($data["ID"]) . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                }
+
+                ?>
+        </div>
+
+        <script>
+            function afficherLabel() {
+                // Récupère l'élément select et les labels
+                const select = document.getElementById('options');
+                const labelCustom = document.getElementById('labelCustom');
+                const labelPremade = document.getElementById('labelPremade');
+
+                // Réinitialise l'affichage des labels
+                labelCustom.hidden = true;
+                labelPremade.hidden = true;
+
+                // Affiche le label approprié en fonction de l'option sélectionnée
+                if (select.value === 'custom') {
+                    labelCustom.hidden = false;
+                } else if (select.value === 'premade') {
+                    labelPremade.hidden = false;
+                }
+            }
+        </script>
+
+        </section>
 
     </body>
 
