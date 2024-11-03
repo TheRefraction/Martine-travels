@@ -41,9 +41,9 @@ if (!isset($_SESSION['email'])) {
         <!-- Custom -->
         <div id="labelCustom" class="label" hidden>
             <label><br>
-                <label for="options">Choose where you want to go :</label><br>
-                <select id="options" onchange="afficherLabel()">
-                    <option value="">-- Choisissez une option --</option>
+                <label for="pays">Choose where you want to go :</label><br>
+                <select id="pays">
+                    <option value="">----- Choisissez une option ----</option>
 
 
                     <?php
@@ -53,11 +53,33 @@ if (!isset($_SESSION['email'])) {
                     $req->execute();
 
                     while ($data = $req->fetch()) {
-                        echo '<option value="' . htmlspecialchars($data["ID"]) . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                        echo '<option value="' . $data["ID"] . '">' . htmlspecialchars($data["Name"]) . '</option>';
                     }
                     ?>
 
                 </select>
+                <br><br>
+
+                <label for="accomodation">Choose in which of the following accomodation (in the country) you want to go :</label><br>
+                <select id="accomodation">
+                    <option value="">-- Choisissez une option --</option>
+
+                    <?php
+
+                    $bdd = get_dbhandle();
+                    $pays=$_POST["pays"];
+                    //$req = $bdd->prepare("SELECT Name From AccomodationProvider WHERE ID_Country = :pays;");
+                    $req->execute();
+
+                    while ($data = $req->fetch()) {
+                        echo '<option value="' . $data["ID"] . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                    }
+                    ?>
+
+                </select><br>
+
+
+
             </label>
         </div>
 
@@ -65,8 +87,8 @@ if (!isset($_SESSION['email'])) {
             <!-- Premade-->
         <div id="labelPremade" class="label" hidden>
             <br>
-            <label for="options">Choose the package</label><br>
-            <select id="options" onchange="afficherLabel()">
+            <label for="package_choice">Choose the package</label><br>
+            <select id="package_choice">
                 <option value="">-- Choisissez une option --</option>
 
 
@@ -77,10 +99,11 @@ if (!isset($_SESSION['email'])) {
                 $req->execute();
 
                 while ($data = $req->fetch()) {
-                    echo '<option value="' . htmlspecialchars($data["ID"]) . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                    echo '<option value="' . htmlspecialchars($data["ID"]) . '">' .  htmlspecialchars($data["Name"]) . '</option>';
                 }
 
                 ?>
+            </select>
         </div>
 
         <script>
