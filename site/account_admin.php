@@ -67,7 +67,7 @@
             Price : <input type="number" name="price" class="input-field" required="required"/>
         </label> <br>
         <label for="Is_custom">
-            <input type="checkbox" id="custom_checkbox" name="is_custom" onchange="toggleCustomField()"> Custom Package
+            <input type="checkbox" id="custom_checkbox" name="is_custom" "> Custom Package
         </label><br><br>
         <input type="submit" value="Add new package">
     </form>
