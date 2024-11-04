@@ -9,7 +9,7 @@
 <body>
 <section>
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Package">
+        <input type="hidden" name="form_id" value="Package">
         <h1>Package:</h1>
         <label for="package_type">Package Type:</label><br>
         <select id="package_type" name="package_type_id" required>
@@ -74,19 +74,19 @@
     <br>
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="PackageType">
+        <input type="hidden" name="form_id" value="PackageType">
         <h1>Package Type:</h1>
         <label>
-            type of the package : <input type="text" name="packagetype" class="input-field" required="required"/>
+            type of the package : <input type="text" name="PackageType" class="input-field" required="required"/>
         </label> <br>
         <input type="submit" value="Add new package type">
     </form>
     <br>
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Accomodation">
-        <h1>Accomodation:</h1>
-        <select id="Accomodation_provider" name="package_accomodation_provider_id" required>
+        <input type="hidden" name="form_id" value="Accommodation">
+        <h1>Accommodation:</h1>
+        <select id="Accommodation_provider" name="package_accommodation_provider_id" required>
             <option value="">-- Select provider --</option>
 
             <?php
@@ -105,7 +105,7 @@
             $req->closeCursor();
             ?>
         </select><br><br>
-        <select id="accomodation_room_type" name="accomodation_room_type_id" required>
+        <select id="accommodation_room_type" name="accommodation_room_type_id" required>
             <option value="">-- Select room type --</option>
 
             <?php
@@ -130,7 +130,7 @@
         <label>
             Outdate : <input type="date" name="outdate" class="input-field" required="required"/>
         </label> <br>
-        <input type="submit" value="Add new Accomodation">
+        <input type="submit" value="Add new Accommodation">
     </form>
 
 
@@ -138,8 +138,8 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="AccomodationJoin">
-        <h1>Join Accomodation and Package:</h1>
+        <input type="hidden" name="form_id" value="AccommodationJoin">
+        <h1>Join Accommodation and Package:</h1>
         <?php
         $bdd = get_dbhandle();
 
@@ -151,8 +151,8 @@
         $req->execute();
         ?>
 
-        <select id="Accomodationjoin_accomodation" name="Accomodationjoin_accomodation_id" required>
-            <option value="">-- Select an accomodation --</option>
+        <select id="Accommodationjoin_accommodation" name="Accommodationjoin_accommodation_id" required>
+            <option value="">-- Select an accommodation --</option>
 
             <?php
             while ($row = $req->fetch()) {
@@ -178,7 +178,7 @@
         $req->execute();
         ?>
 
-        <select id="AccomodationJoin_package_select" name="AccomodationJoin_package_id" required>
+        <select id="AccommodationJoin_package_select" name="AccommodationJoin_package_id" required>
             <option value="">-- Select a package --</option>
 
             <?php
@@ -204,10 +204,10 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="AccomodationProvider">
-        <h1>Accomodation Provider:</h1>
-        <select id="accomodation_provider_type" name="accomodation_type_id" required>
-            <option value="">-- Select accomodation type --</option>
+        <input type="hidden" name="form_id" value="AccommodationProvider">
+        <h1>Accommodation Provider:</h1>
+        <select id="accommodation_provider_type" name="accommodation_type_id" required>
+            <option value="">-- Select accommodation type --</option>
 
             <?php
 
@@ -226,43 +226,43 @@
             ?>
         </select><br><br>
         <label>
-            Name : <input type = "text" name="AccomodationProviderName" class="input-field" required="required" />
+            Name : <input type = "text" name="AccommodationProviderName" class="input-field" required="required" />
         </label><br>
         <label>
-            Adress : <input type = "text" name="AccomodationProviderAdress" class="input-field" required="required" />
+            Address : <input type = "text" name="AccommodationProviderAddress" class="input-field" required="required" />
         </label><br>
 
-        <input type="submit" value="add accomodation provider">
+        <input type="submit" value="add accommodation provider">
     </form>
     <br>
 
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="AccomodationType">
-        <h1>Accomodation Type:</h1>
+        <input type="hidden" name="form_id" value="AccommodationType">
+        <h1>Accommodation Type:</h1>
         <label>
-            name of the accomodation type : <input type = "text" name="Accomodationtype" class="input-field" required="required" />
+            name of the accommodation type : <input type = "text" name="Accommodationtype" class="input-field" required="required" />
         </label><br>
-        <input type="submit" value="add accomodation type">
+        <input type="submit" value="add accommodation type">
     </form>
 
 
 
     <br>
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Ammenities">
-        <h1>Ammenities:</h1>
+        <input type="hidden" name="form_id" value="Amenities">
+        <h1>Amenities:</h1>
         <label>
-            Name : <input type = "text" name="AmmenitiesName" class="input-field" required="required" />
+            Name : <input type = "text" name="AmenitiesName" class="input-field" required="required" />
         </label><br>
-        <input type="submit" value="add ammenities">
+        <input type="submit" value="add amenities">
     </form>
     <br>
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="AmmenitiesJoin">
-        <h1>Join Ammenities to accomodation:</h1>
+        <input type="hidden" name="form_id" value="AmenitiesJoin">
+        <h1>Join Amenities to accommodation:</h1>
         <?php
         $bdd = get_dbhandle();
 
@@ -274,8 +274,8 @@
         $req->execute();
         ?>
 
-        <select id="Ammenitiesjoin_accomodation" name="Ammenitiesjoin_accomodation_id" required>
-            <option value="">-- Select accomodation --</option>
+        <select id="Amenitiesjoin_accommodation" name="Amenitiesjoin_accommodation_id" required>
+            <option value="">-- Select accommodation --</option>
 
             <?php
             while ($row = $req->fetch()) {
@@ -290,8 +290,8 @@
         </select>
         <br><br>
 
-        <select id="Ammenities_join_ammenities" name="Ammenities_join_ammenities_id" required>
-            <option value="">-- Select ammenities --</option>
+        <select id="Amenities_join_amenities" name="Amenities_join_amenities_id" required>
+            <option value="">-- Select amenities --</option>
 
             <?php
 
@@ -309,7 +309,7 @@
             $req->closeCursor();
             ?>
         </select><br><br>
-        <input type="submit" value="join ammenities to an accomodation">
+        <input type="submit" value="join amenities to an accommodation">
     </form>
     <br>
 
@@ -317,7 +317,7 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Destination">
+        <input type="hidden" name="form_id" value="Destination">
         <h1>Destination:</h1>
         <label>
             Name : <input type = "text" name="DestinationName" class="input-field" required="required" />
@@ -351,7 +351,7 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Feedback">
+        <input type="hidden" name="form_id" value="Feedback">
         <h1>feedback:</h1>
         <label>
             Title : <input type = "text" name="FeedbackTitle" class="input-field" required="required" />
@@ -389,8 +389,56 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="PackageUser">
-        <h1> Assign a package to an user:</h1>
+        <input type="hidden" name="form_id" value="PackageUser">
+        <h1> Assign a package to a user:</h1>
+        <select id="PackageUser_user" name="PackageUser_id" required>
+            <option value="">-- Select User --</option>
+
+            <?php
+
+
+            $bdd = get_dbhandle();
+
+            $req = $bdd->prepare("SELECT ID, First_Name, Last_Name FROM User");
+            $req->execute();
+
+
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['First_Name']) . ' ' . htmlspecialchars($row['Last_Name']) . '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select><br><br>
+        <?php
+        $bdd = get_dbhandle();
+
+        $req = $bdd->prepare("
+    SELECT Package.ID, PackageType.Name AS Package_Type, Destination.Name AS Destination_Name, Package.Duration
+    FROM Package
+    INNER JOIN PackageType ON Package.Type_ID = PackageType.ID
+    INNER JOIN Destination ON Package.Destination_ID = Destination.ID");
+
+        $req->execute();
+        ?>
+
+        <select id="PackageUser_package" name="PackageUser_package_id" required>
+            <option value="">-- Select a package --</option>
+
+            <?php
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">'
+                    . htmlspecialchars($row['Package_Type']) . ' - '
+                    . htmlspecialchars($row['Destination_Name']) . ' - '
+                    . htmlspecialchars($row['Duration']) . ' jours'
+                    . '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select>
+        <br><br>
+
 
         <input type="submit" value="join a package to an user">
     </form>
@@ -399,8 +447,8 @@
 
     <br>
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Preference">
-        <h1>Preference of user about vehicule:</h1>
+        <input type="hidden" name="form_id" value="Preference">
+        <h1>Preference of user about vehicle:</h1>
         <select id="preference_user" name="preference_user_id" required>
             <option value="">-- Select an user --</option>
 
@@ -447,7 +495,7 @@
 
     <br>
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="RoomType">
+        <input type="hidden" name="form_id" value="RoomType">
         <h1>Room Type:</h1>
         <label>
             New room type : <input type = "text" name="RoomType" class="input-field" required="required" />
@@ -459,7 +507,7 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Transpot">
+        <input type="hidden" name="form_id" value="Transport">
         <h1>Transport :</h1>
         <label>
             New Transport : <input type = "text" name="Transport" class="input-field" required="required" />
@@ -469,7 +517,7 @@
     <br>
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Transportation">
+        <input type="hidden" name="form_id" value="Transportation">
         <h1>Transportation:</h1>
         <select id="Transportation_transport" name="Transportation_transport_id" required>
             <option value="">-- Select transport --</option>
@@ -574,12 +622,12 @@
 
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="TransportationJoin">
+        <input type="hidden" name="form_id" value="TransportationJoin">
         <h1>join Transportation to package:</h1>
         <?php
         $bdd = get_dbhandle();
 
-        // Requête pour récupérer les packages
+
         $req = $bdd->prepare("
     SELECT Package.ID, PackageType.Name AS Package_Type, Destination.Name AS Destination_Name, Package.Duration
     FROM Package
@@ -606,7 +654,7 @@
         <br><br>
 
         <?php
-        // Nouvelle requête pour récupérer les informations de transport
+
         $req = $bdd->prepare("
     SELECT Transportation.ID, Transport.Name AS Transport_Type, Transportation.Date, TransportProvider.Name AS Provider_Name
     FROM Transportation
@@ -640,7 +688,7 @@
 
     <br>
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="TransportProvider">
+        <input type="hidden" name="form_id" value="TransportProvider">
         <h1>Transport Provider:</h1>
         <label>
             New transport provider : <input type="text" name="Transport_provider" class="input-field" required="required"/>
@@ -650,7 +698,7 @@
     <br>
 
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="User">
+        <input type="hidden" name="form_id" value="User">
         <h1>User:</h1>
         <label>
             First name : <input type="text" name="fname" class="input-field" required="required" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\-]+" title ="Must contain only letters or hyphens"/>
@@ -678,7 +726,7 @@
     </form>
     <br>
     <form action="admin.php" method="POST">
-        <input type="hidden" name="formulaire_id" value="Is_admin">
+        <input type="hidden" name="form_id" value="Is_admin">
         <h1>New admin:</h1>
         <select id="Is_admin_user" name="Is_admin_user_id" required>
             <option value="">-- Select an user --</option>

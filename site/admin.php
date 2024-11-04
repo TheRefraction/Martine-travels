@@ -2,9 +2,9 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $formulaire_id = $_POST['formulaire_id'];
+    $form_id = $_POST['form_id'];
 
-    switch ($formulaire_id) {
+    switch ($form_id) {
         case 'Package':
 
             echo "Processing Package Form.";
