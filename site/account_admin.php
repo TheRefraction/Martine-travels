@@ -295,60 +295,210 @@
 
                 <input type="submit" value="join a package to an user">
             </form>
+
+
+
             <br>
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="Preference">
                 <h1>Preference of user about vehicule:</h1>
+                    <select id="preference_user" name="preference_user_id" required>
+                        <option value="">-- Select an user --</option>
 
+                        <?php
+
+
+                        $bdd = get_dbhandle();
+
+                        $req = $bdd->prepare("SELECT ID, First_Name, Last_Name FROM User");
+                        $req->execute();
+
+
+                        while ($row = $req->fetch()) {
+                            echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['First_Name']) . ' ' . htmlspecialchars($row['Last_Name']) . '</option>';
+                        }
+
+                        $req->closeCursor();
+                        ?>
+                    </select><br><br>
+                <select id="Feedback_transport" name="Feedback_transport_id" required>
+                    <option value="">-- Select transport --</option>
+
+                    <?php
+
+
+                    $bdd = get_dbhandle();
+
+                    $req = $bdd->prepare("SELECT ID, Name FROM Transport");
+                    $req->execute();
+
+
+                    while ($row = $req->fetch()) {
+                        echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['Name']) . '</option>';
+                    }
+
+                    $req->closeCursor();
+                    ?>
+                </select><br><br>
                 <input type="submit" value="ok ">
             </form>
+
+
+
             <br>
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="RoomType">
                 <h1>Room Type:</h1>
-
+                    <label>
+                        New room type : <input type = "text" name="RoomType" class="input-field" required="required" />
+                    </label><br>
                 <input type="submit" value="add room type ">
             </form>
             <br>
+
+
+
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="Transpot">
                 <h1>Transport :</h1>
-
+                    <label>
+                        New Transport : <input type = "text" name="Transport" class="input-field" required="required" />
+                    </label><br>
                 <input type="submit" value="add transport">
             </form>
             <br>
+
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="Transportation">
                 <h1>Transportation:</h1>
+                <select id="Transportation_transport" name="Transportation_transport_id" required>
+                    <option value="">-- Select transport --</option>
 
+                    <?php
+
+
+                    $bdd = get_dbhandle();
+
+                    $req = $bdd->prepare("SELECT ID, Name FROM Transport");
+                    $req->execute();
+
+
+                    while ($row = $req->fetch()) {
+                        echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['Name']) . '</option>';
+                    }
+
+                    $req->closeCursor();
+                    ?>
+                </select><br><br>
+                <label>
+                    Date : <input type="date" name="Transportation_date" class="input-field" required="required"/>
+                </label> <br>
+                <label>
+                    Departure : <input type="time" name="Transportation_departure" class="input-field" required="required"/>
+                </label> <br>
+                <label>
+                    Arrival : <input type="time" name="Transportation_arrival" class="input-field" required="required"/>
+                </label> <br>
+                <select id="Transportation_transport_provider" name="Transportation_transport_provider_id" required>
+                    <option value="">-- Select transport provider --</option>
+
+                    <?php
+
+
+                    $bdd = get_dbhandle();
+
+                    $req = $bdd->prepare("SELECT ID, Name FROM TransportProvider");
+                    $req->execute();
+
+
+                    while ($row = $req->fetch()) {
+                        echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['Name']) . '</option>';
+                    }
+
+                    $req->closeCursor();
+                    ?>
+                </select><br><br>
+                <label>
+                    Ticket number : <input type="number" name="Transportation_ticket_number" class="input-field" required="required"/>
+                </label> <br>
+                <label>
+                    Seat number : <input type="number" name="Transportation_seat_number" class="input-field" required="required"/>
+                </label> <br>
                 <input type="submit" value="add transportation">
             </form>
             <br>
+
+
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="TransportationJoin">
                 <h1>join Transportation to package:</h1>
 
                 <input type="submit" value="join ">
             </form>
+
+
+
             <br>
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="TransportProvider">
                 <h1>Transport Provider:</h1>
-
+                <label>
+                    New transport provider : <input type="number" name="Transport_provider" class="input-field" required="required"/>
+                </label> <br>
                 <input type="submit" value="add transport provider">
             </form>
             <br>
+
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="User">
                 <h1>User:</h1>
+                    <label>
+                        First name : <input type="text" name="fname" class="input-field" required="required" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\-]+" title ="Must contain only letters or hyphens"/>
+                    </label> <br>
 
+                    <label>
+                        Last name : <input type="text" name="lname" class="input-field" required="required" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\-]+" title ="Must contain only letters or hyphens"/>
+                    </label> <br>
+
+                    <label>
+                        Email : <input type="email" placeholder="email@domain.com" name="email" class="input-field" required="required" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"/>
+                    </label> <br>
+
+                    <label>
+                        Birthdate : <input type="date" id="birthday" name="birthday" class="input-field" required="required" min="1900-01-01"/>
+                    </label> <br>
+
+                    <label>
+                        Phone number : <input type="tel" placeholder="0545654751" name="phone" class="input-field" required="required"/>
+                    </label> <br>
+                    <label>
+                        Password : <input type="password" name="passwd" class="input-field" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,128}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
+                    </label> <br>
                 <input type="submit" value="add User">
             </form>
             <br>
             <form action="admin.php" method="POST">
                 <input type="hidden" name="formulaire_id" value="Is_admin">
                 <h1>New admin:</h1>
+                    <select id="preference_user" name="preference_user_id" required>
+                        <option value="">-- Select an user --</option>
 
+                        <?php
+
+
+                        $bdd = get_dbhandle();
+
+                        $req = $bdd->prepare("SELECT ID, First_Name, Last_Name FROM User");
+                        $req->execute();
+
+
+                        while ($row = $req->fetch()) {
+                            echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['First_Name']) . ' ' . htmlspecialchars($row['Last_Name']) . '</option>';
+                        }
+
+                        $req->closeCursor();
+                        ?>
+                    </select><br><br>
                 <input type="submit" value="add a new admin ">
             </form>
             <br>
