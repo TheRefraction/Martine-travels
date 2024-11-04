@@ -140,6 +140,60 @@
     <form action="admin.php" method="POST">
         <input type="hidden" name="formulaire_id" value="AccomodationJoin">
         <h1>Join Accomodation and Package:</h1>
+        <?php
+        $bdd = get_dbhandle();
+
+        $req = $bdd->prepare("
+        SELECT Accomodation.ID, AccomodationProvider.Name AS Provider_Name, RoomType.Name AS Room_Type
+        FROM Accomodation
+        INNER JOIN AccomodationProvider ON Accomodation.Provider_ID = AccomodationProvider.ID
+        INNER JOIN RoomType ON Accomodation.Room_type_ID = RoomType.ID");
+        $req->execute();
+        ?>
+
+        <select id="Accomodationjoin_accomodation" name="Accomodationjoin_accomodation_id" required>
+            <option value="">-- Select an accomodation --</option>
+
+            <?php
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">'
+                    . htmlspecialchars($row['Provider_Name']) . ' - '
+                    . htmlspecialchars($row['Room_Type']) .
+                    '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select>
+        <br><br>
+        <?php
+        $bdd = get_dbhandle();
+
+        $req = $bdd->prepare("
+    SELECT Package.ID, PackageType.Name AS Package_Type, Destination.Name AS Destination_Name, Package.Duration
+    FROM Package
+    INNER JOIN PackageType ON Package.Type_ID = PackageType.ID
+    INNER JOIN Destination ON Package.Destination_ID = Destination.ID");
+
+        $req->execute();
+        ?>
+
+        <select id="AccomodationJoin_package_select" name="AccomodationJoin_package_id" required>
+            <option value="">-- Select a package --</option>
+
+            <?php
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">'
+                    . htmlspecialchars($row['Package_Type']) . ' - '
+                    . htmlspecialchars($row['Destination_Name']) . ' - '
+                    . htmlspecialchars($row['Duration']) . ' jours'
+                    . '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select>
+        <br><br>
 
 
         <input type="submit" value="Join">
@@ -209,7 +263,52 @@
     <form action="admin.php" method="POST">
         <input type="hidden" name="formulaire_id" value="AmmenitiesJoin">
         <h1>Join Ammenities to accomodation:</h1>
+            <?php
+            $bdd = get_dbhandle();
 
+            $req = $bdd->prepare("
+        SELECT Accomodation.ID, AccomodationProvider.Name AS Provider_Name, RoomType.Name AS Room_Type
+        FROM Accomodation
+        INNER JOIN AccomodationProvider ON Accomodation.Provider_ID = AccomodationProvider.ID
+        INNER JOIN RoomType ON Accomodation.Room_type_ID = RoomType.ID");
+            $req->execute();
+            ?>
+
+        <select id="Ammenitiesjoin_accomodation" name="Ammenitiesjoin_accomodation_id" required>
+            <option value="">-- Select accomodation --</option>
+
+            <?php
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">'
+                    . htmlspecialchars($row['Provider_Name']) . ' - '
+                    . htmlspecialchars($row['Room_Type']) .
+                    '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select>
+        <br><br>
+
+        <select id="Ammenities_join_ammenities" name="Ammenities_join_ammenities_id" required>
+            <option value="">-- Select ammenities --</option>
+
+            <?php
+
+
+            $bdd = get_dbhandle();
+
+            $req = $bdd->prepare("SELECT ID, Name FROM Amenities");
+            $req->execute();
+
+
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['Name']) . '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select><br><br>
         <input type="submit" value="join ammenities to an accomodation">
     </form>
     <br>
@@ -321,7 +420,8 @@
             $req->closeCursor();
             ?>
         </select><br><br>
-        <select id="Feedback_transport" name="Feedback_transport_id" required>
+
+        <select id="Preference_transport" name="Preference_transport_id" required>
             <option value="">-- Select transport --</option>
 
             <?php
@@ -424,6 +524,50 @@
         <label>
             Seat number : <input type="number" name="Transportation_seat_number" class="input-field" required="required"/>
         </label> <br>
+        <label>
+            Place of Departure : <input type="text" name="Transportation_departure_place" class="input-field" required="required"/>
+        </label> <br>
+        <label>
+            Place of Arrival : <input type="text" name="Transportation_arrival_place" class="input-field" required="required"/>
+        </label> <br>
+        <select id="Transportation_departure_country" name="Transportation_departure_country_id" required>
+            <option value="">-- Select Departure Country --</option>
+
+            <?php
+
+
+            $bdd = get_dbhandle();
+
+            $req = $bdd->prepare("SELECT ID, Name FROM Country");
+            $req->execute();
+
+
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['Name']) . '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select><br><br>
+        <select id="Transportation_arrival_country" name="Transportation_arrival_country_id" required>
+            <option value="">-- Select Arrival Country --</option>
+
+            <?php
+
+
+            $bdd = get_dbhandle();
+
+            $req = $bdd->prepare("SELECT ID, Name FROM Country");
+            $req->execute();
+
+
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">' . htmlspecialchars($row['Name']) . '</option>';
+            }
+
+            $req->closeCursor();
+            ?>
+        </select><br><br>
         <input type="submit" value="add transportation">
     </form>
     <br>
@@ -432,6 +576,62 @@
     <form action="admin.php" method="POST">
         <input type="hidden" name="formulaire_id" value="TransportationJoin">
         <h1>join Transportation to package:</h1>
+        <?php
+        $bdd = get_dbhandle();
+
+        // Requête pour récupérer les packages
+        $req = $bdd->prepare("
+    SELECT Package.ID, PackageType.Name AS Package_Type, Destination.Name AS Destination_Name, Package.Duration
+    FROM Package
+    INNER JOIN PackageType ON Package.Type_ID = PackageType.ID
+    INNER JOIN Destination ON Package.Destination_ID = Destination.ID");
+
+        $req->execute();
+        ?>
+
+        <select id="TransportationJoin_package" name="TransportationJoin_package_id" required>
+            <option value="">-- Select a package --</option>
+
+            <?php
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">'
+                    . htmlspecialchars($row['Package_Type']) . ' - '
+                    . htmlspecialchars($row['Destination_Name']) . ' - '
+                    . htmlspecialchars($row['Duration']) . ' jours'
+                    . '</option>';
+            }
+            $req->closeCursor();
+            ?>
+        </select>
+        <br><br>
+
+        <?php
+        // Nouvelle requête pour récupérer les informations de transport
+        $req = $bdd->prepare("
+    SELECT Transportation.ID, Transport.Name AS Transport_Type, Transportation.Date, TransportProvider.Name AS Provider_Name
+    FROM Transportation
+    INNER JOIN Transport ON Transportation.Type_ID = Transport.ID
+    INNER JOIN TransportProvider ON Transportation.Provider_ID = TransportProvider.ID");
+
+        $req->execute();
+        ?>
+
+        <select id="TransportationJoin_transportation" name="TransportationJoin_transportation_id" required>
+            <option value="">-- Select transportation --</option>
+
+            <?php
+            while ($row = $req->fetch()) {
+                echo '<option value="' . htmlspecialchars($row['ID']) . '">'
+                    . htmlspecialchars($row['Transport_Type']) . ' - '
+                    . htmlspecialchars($row['Date']) . ' - '
+                    . htmlspecialchars($row['Provider_Name'])
+                    . '</option>';
+            }
+            $req->closeCursor();
+            ?>
+        </select>
+        <br><br>
+
 
         <input type="submit" value="join ">
     </form>
@@ -443,7 +643,7 @@
         <input type="hidden" name="formulaire_id" value="TransportProvider">
         <h1>Transport Provider:</h1>
         <label>
-            New transport provider : <input type="number" name="Transport_provider" class="input-field" required="required"/>
+            New transport provider : <input type="text" name="Transport_provider" class="input-field" required="required"/>
         </label> <br>
         <input type="submit" value="add transport provider">
     </form>
@@ -480,7 +680,7 @@
     <form action="admin.php" method="POST">
         <input type="hidden" name="formulaire_id" value="Is_admin">
         <h1>New admin:</h1>
-        <select id="preference_user" name="preference_user_id" required>
+        <select id="Is_admin_user" name="Is_admin_user_id" required>
             <option value="">-- Select an user --</option>
 
             <?php
