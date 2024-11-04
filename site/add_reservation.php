@@ -41,23 +41,34 @@ if (!isset($_SESSION['email'])) {
         <!-- Custom -->
         <div id="labelCustom" class="label" hidden>
             <label><br>
-                <label for="options">Choose where you want to go :</label><br>
-                <select id="options" onchange="afficherLabel()">
-                    <option value="">-- Choisissez une option --</option>
+                <label for="pays">Choose where you want to go :</label><br>
+                <select id="pays" onchange="accomodation()">
+                    <option value="NULL">----- Choisissez une option ----</option>
 
 
                     <?php
 
                     $bdd = get_dbhandle();
-                    $req = $bdd->prepare("SELECT Name From Country;");
+                    $req = $bdd->prepare("SELECT Name, ID From Country;");
                     $req->execute();
 
                     while ($data = $req->fetch()) {
-                        echo '<option value="' . htmlspecialchars($data["ID"]) . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                        echo '<option value="' .$data["ID"]. '">' . htmlspecialchars($data["Name"]) . '</option>';
                     }
                     ?>
 
                 </select>
+                <br><br>
+
+
+                <label id="label_accomodation" for="accomodation" hidden>Choose in which of the following accomodation (in the country) you want to go :</label><br>
+                <select id="accomodation" hidden>
+                    <option value="NULL">-- Choisissez une option --</option>
+
+
+                </select><br>
+
+
             </label>
         </div>
 
@@ -65,22 +76,23 @@ if (!isset($_SESSION['email'])) {
             <!-- Premade-->
         <div id="labelPremade" class="label" hidden>
             <br>
-            <label for="options">Choose the package</label><br>
-            <select id="options" onchange="afficherLabel()">
+            <label for="package_choice">Choose the package</label><br>
+            <select id="package_choice">
                 <option value="">-- Choisissez une option --</option>
 
 
                 <?php
 
                 //$bdd = get_dbhandle();
-                $req = $bdd->prepare("SELECT De.Name From Package Pa INNER JOIN Destination De ON De.ID = Pa.Destination_ID;");
+                $req = $bdd->prepare("SELECT De.Name, De.ID From Package Pa INNER JOIN Destination De ON De.ID = Pa.Destination_ID;");
                 $req->execute();
 
                 while ($data = $req->fetch()) {
-                    echo '<option value="' . htmlspecialchars($data["ID"]) . '">' . htmlspecialchars($data["Name"]) . '</option>';
+                    echo '<option value="' . htmlspecialchars($data["ID"]) . '">' .  htmlspecialchars($data["Name"]) . '</option>';
                 }
 
                 ?>
+            </select>
         </div>
 
         <script>
@@ -101,6 +113,38 @@ if (!isset($_SESSION['email'])) {
                     labelPremade.hidden = false;
                 }
             }
+        </script>
+
+        <script>
+
+            function accomodation(){
+
+                const paysSelect = document.getElementById("pays");
+                const accommodationSelect = document.getElementById("accomodation");
+                const accommodationLabel = document.getElementById("label_accomodation");
+                accommodationSelect.hidden = true;
+                accommodationLabel.hidden =true;
+                if (paysSelect.value!=="NULL") {
+                    accommodationSelect.hidden = false;
+                    accommodationLabel.hidden = false;
+
+
+
+                    fetch("add_reservation_get_accommodations.php?pays=" + paysSelect.value)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(item => {
+                                //Add the new option
+                                let option = document.createElement("option");
+                                option.value = item.ID;
+                                option.textContent = item.Name;
+                                accommodationSelect.appendChild(option);
+                            });
+                        })
+
+                }
+            }
+
         </script>
 
         </section>

@@ -11,10 +11,12 @@
     $email = $_SESSION['email'];
 
     $bdd = get_dbhandle();
-    $req = $bdd->prepare("SELECT First_name FROM User WHERE Email = ?");
+    $req = $bdd->prepare("SELECT First_name, ID FROM User WHERE Email = ?");
     $req->execute([$email]);
 
-    $userName = $req->fetch();
+    $data = $req->fetch();
+    $userName = $data['First_name'];
+    $userID = $data['ID'];
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +32,7 @@
         <?php include_once('header.php');?>
 
         <section class ="login_section">
-            <h1>Welcome back <?php echo htmlspecialchars($userName['First_name']);?>! Where would you like to go?</h1>
+            <h1>Welcome back <?php echo htmlspecialchars($userName);?>! Where would you like to go?</h1>
             <br>
 
             <form method="post" action="add_reservation.php">
@@ -49,10 +51,9 @@
 
                 <?php
 
-                $user=9; //A modifier pour avoir l'user
 
                 //Acquisition of data from previous packages
-                $req = $bdd->prepare("SELECT * FROM Package_User Pr INNER JOIN Package Pa ON Pr.Package_ID = Pa.ID INNER JOIN Destination De ON De.ID = Pa.Destination_ID WHERE Status = 3 AND Pr.User_ID=$user;");
+                $req = $bdd->prepare("SELECT * FROM Package_User Pr INNER JOIN Package Pa ON Pr.Package_ID = Pa.ID INNER JOIN Destination De ON De.ID = Pa.Destination_ID WHERE Status = 3 AND Pr.User_ID=$userID;");
                 $req->execute();
 
                 ?>
