@@ -263,16 +263,16 @@
     <form action="admin.php" method="POST">
         <input type="hidden" name="formulaire_id" value="AmmenitiesJoin">
         <h1>Join Ammenities to accomodation:</h1>
-            <?php
-            $bdd = get_dbhandle();
+        <?php
+        $bdd = get_dbhandle();
 
-            $req = $bdd->prepare("
+        $req = $bdd->prepare("
         SELECT Accomodation.ID, AccomodationProvider.Name AS Provider_Name, RoomType.Name AS Room_Type
         FROM Accomodation
         INNER JOIN AccomodationProvider ON Accomodation.Provider_ID = AccomodationProvider.ID
         INNER JOIN RoomType ON Accomodation.Room_type_ID = RoomType.ID");
-            $req->execute();
-            ?>
+        $req->execute();
+        ?>
 
         <select id="Ammenitiesjoin_accomodation" name="Ammenitiesjoin_accomodation_id" required>
             <option value="">-- Select accomodation --</option>
