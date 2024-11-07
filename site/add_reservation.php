@@ -49,7 +49,7 @@ if (!isset($_SESSION['email'])) {
                     <?php
 
                     $bdd = get_dbhandle();
-                    $req = $bdd->prepare("SELECT Name, ID From Country;");
+                    $req = $bdd->prepare("SELECT Name, ID From Address_Country;");
                     $req->execute();
 
                     while ($data = $req->fetch()) {
@@ -74,7 +74,7 @@ if (!isset($_SESSION['email'])) {
                         <?php
 
                         $bdd = get_dbhandle();
-                        $req = $bdd->prepare("SELECT Name From Transport;");
+                        $req = $bdd->prepare("SELECT Name From Transportation_Type;");
                         $req->execute();
 
                         while ($data = $req->fetch()) {
@@ -117,13 +117,15 @@ if (!isset($_SESSION['email'])) {
 
 
                 <?php
+
+                /*
                 $req = $bdd->prepare("SELECT De.Name, De.ID From Package Pa INNER JOIN Destination De ON De.ID = Pa.Destination_ID;");
                 $req->execute();
 
                 while ($data = $req->fetch()) {
                     echo '<option value="' . $data["ID"] . '">' .  $data["Name"] . '</option>';
                 }
-
+                */
                 ?>
             </select>
         </div>
