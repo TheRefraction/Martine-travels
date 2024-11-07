@@ -53,7 +53,7 @@
 
 
                 //Acquisition of data from previous packages
-                $req = $bdd->prepare("SELECT * FROM Package_User Pr INNER JOIN Package Pa ON Pr.Package_ID = Pa.ID INNER JOIN Destination De ON De.ID = Pa.Destination_ID WHERE Status = 3 AND Pr.User_ID=$userID;");
+                $req = $bdd->prepare("SELECT Pa.Duration, Ac.Name, Pa.Price  FROM Reservation Re INNER JOIN Package Pa ON Re.Package_ID = Pa.ID INNER JOIN Address Ad ON Ad.ID = Pa.Address_ID INNER JOIN Address_Country Ac ON Ad.Country_ID = Ac.ID WHERE Re.Status = 3 AND Re.Client_ID=$userID;");
                 $req->execute();
 
                 ?>
