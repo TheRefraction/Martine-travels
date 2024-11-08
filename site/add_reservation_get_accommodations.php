@@ -9,7 +9,7 @@ if (isset($_GET["pays"])) {
 
     // Connexion à la base de données
     $bdd = get_dbhandle();
-    $req = $bdd->prepare("SELECT ap.ID, ap.Name FROM Accomodation_Provider ap INNER JOIN Adress Ad ON ap.Address_ID = Ad.ID HAVING Country_ID = :pays;");
+    $req = $bdd->prepare("SELECT Ap.ID, Ap.Name FROM Accommodation_Provider Ap INNER JOIN Address Ad ON Ap.Address_ID = Ad.ID WHERE Ad.Country_ID = :pays;");
     $req->execute(['pays' => $pays]);
 
     // Récupération des résultats et envoi sous forme JSON

@@ -62,45 +62,15 @@ if (!isset($_SESSION['email'])) {
 
             <div id="div_accomodation" hidden>
                 <label id="label_accomodation" for="accomodation">Choose in which of the following accomodation (in the country) you want to go :</label><br>
-                <select id="accomodation" onchange="transportation()">
+                <select id="accomodation" onchange="next()">
                     <option value="NULL">-- Choisissez une option --</option>
-                </select><br>
+                </select><br><br>
 
-                <div id="div_type_transportation" hidden><br>
-                    <label id="label_type_transportation" for="type_transportation">Choose the type of transportation :</label><br>
-                    <select id="type_transportation">
-                        <option value="NULL">-- Choisissez une option --</option>
-
-                        <?php
-
-                        $bdd = get_dbhandle();
-                        $req = $bdd->prepare("SELECT Name From Transportation_Type;");
-                        $req->execute();
-
-                        while ($data = $req->fetch()) {
-                            echo '<option value="' .$data["ID"]. '">' . $data["Name"] . '</option>';
-                        }
-                        ?>
-
-                    </select><br><br>
-
-                    <form method="post" onchange="">
-                        <label>
-                            <input type="submit" name='transportation_ajout' value="Add a transportation" /><br>
-                        </label><br>
-                    </form><br>
-
-                    <form method="post" onchange="">
-                        <label>
-                            <input type="submit" name='transportation_Remove' value="Remove a transportation" /><br>
-                        </label><br>
-                    </form>
-
-                </div>
-
-
-
-                </form>
+                <form method="post" id='form_header' action="add_reservation_transportation.php" hidden>
+                    <label>
+                        <input type="submit" name='transportation_header' value="Go to transportations"/><br>
+                    </label><br>
+                </form><br>
 
             </div>
 
@@ -175,13 +145,13 @@ if (!isset($_SESSION['email'])) {
                 }
             }
 
-            function transportation(){
+            function next(){
                 const accomodation = document.getElementById("accomodation");
-                const TransportDiv = document.getElementById("div_type_transportation");
+                const next = document.getElementById("form_header");
 
-                TransportDiv.hidden = true;
+                next.hidden = true;
                 if(accomodation.value !== "NULL"){
-                    TransportDiv.hidden = false;
+                    next.hidden = false;
                 }
             }
 
