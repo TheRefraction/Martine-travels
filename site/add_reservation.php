@@ -106,6 +106,8 @@ if (!isset($_SESSION['email'])) {
                 const select = document.getElementById('options');
                 const labelCustom = document.getElementById('labelCustom');
                 const labelPremade = document.getElementById('labelPremade');
+                const paysSelect = document.getElementById("pays");
+                const accommodationSelect = document.getElementById("accomodation");
 
                 // Réinitialise l'affichage des labels
                 labelCustom.hidden = true;
@@ -125,6 +127,14 @@ if (!isset($_SESSION['email'])) {
                 const accommodationSelect = document.getElementById("accomodation");
                 const accommodationDiv = document.getElementById("div_accomodation");
                 accommodationDiv.hidden =true;
+
+                //remove precedent options
+                for (let i = accommodationSelect.options.length - 1; i >= 0; i--) {
+                    if (accommodationSelect.options[i].value !== "NULL") {
+                        accommodationSelect.remove(i);
+                    }
+                }
+
                 if (paysSelect.value!=="NULL") {
                     accommodationDiv.hidden = false;
 

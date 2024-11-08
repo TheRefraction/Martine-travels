@@ -27,7 +27,7 @@ if (!isset($_SESSION['email'])) {
 
 
     <label id="label_type_transportation" for="type_transportation">Choose the type of transportation :</label><br>
-    <select id="type_transportation">
+    <select id="type_transportation" onchange="transport()">
         <option value="NULL">-- Choisissez une option --</option>
 
         <?php
@@ -48,7 +48,8 @@ if (!isset($_SESSION['email'])) {
 
     <div id="transportation_div" hidden>
 
-        <select id="transportation">
+        <label id="label_transportation" for="transportation">Choose the place of Arrival :</label><br>
+        <select id="transportation" onchange="button()">
             <option value="NULL">-- Choisissez une option --</option>
 
         </select><br><br>
@@ -57,16 +58,19 @@ if (!isset($_SESSION['email'])) {
     </div>
 
 
+    <div id="description" hidden>
 
-    <form method="post" onchange="">
+    </div><br>
+
+    <form id="form_transportation_add" method="post" onchange="" hidden>
         <label>
-            <input type="submit" name='transportation_ajout' value="Add a transportation" /><br>
-        </label><br>
+            <input type="submit" name='transportation_ajout' value="Validate and add another transportation" /><br>
+        </label>
     </form><br>
 
-    <form method="post" onchange="">
+    <form id="form_next" method="post" onchange="" hidden>
         <label>
-            <input type="submit" name='transportation_Remove' value="Remove a transportation" /><br>
+            <input type="submit" name='label_next' value="Validate and go to the next step" /><br>
         </label>
     </form>
 
@@ -85,12 +89,19 @@ if (!isset($_SESSION['email'])) {
         console.log("Selected date:", date);
         console.log("Selected transportation:", type_transportation.value);
 
+        //set invisible (in case of modification of previous select)
         transportation_div.hidden = true;
+
+        //remove precedent option
+        for (let i = transportation.options.length - 1; i >= 0; i--) {
+            if (transportation.options[i].value !== "NULL") {
+                transportation.remove(i);
+            }
+        }
 
         if (date) {
             transportation_div.hidden = false;
 
-            // Perform the fetch request with template literals for URL parameters
             fetch(`add_reservation_transportation_get.php?type=${type_transportation.value}&date=${date}`)
                 .then(response => {
                     if (!response.ok) {
@@ -109,6 +120,44 @@ if (!isset($_SESSION['email'])) {
                         option.value = item.ID;
                         option.textContent = fullAddress;
                         transportation.appendChild(option);
+                    });
+                })
+        }
+    }
+
+    function button(){
+
+        const form_transportation_add = document.getElementById("form_transportation_add");
+        const form_next = document.getElementById("form_next");
+        const transportation = document.getElementById("transportation");
+        const description = document.getElementById("description");
+        console.log("Selected transportation ID:", transportation.value);
+
+        //set invisible (in case of modification of previous select)
+        form_transportation_add.hidden = true;
+        form_next.hidden = true;
+        description.hidden = true;
+
+        if(transportation.value !== "NULL" ){
+            form_transportation_add.hidden = false;
+            form_next.hidden = false;
+            description.hidden = false;
+
+            fetch(`add_reservation_transportation_get_description.php?ID=${transportation.value}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data)) {
+                        throw new Error("Data format error: Expected an array");
+                    }
+                    //Creation of description
+                    data.forEach(item => {
+                        const text = `${item.Country}, ${item.County}, ${item.Town}, ${item.Street}`;
+                        description.textContent = text;
                     });
                 })
         }

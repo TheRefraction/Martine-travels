@@ -11,7 +11,7 @@ if (isset($_GET["type"]) && isset($_GET["date"])) {
     // Database connection
     $bdd = get_dbhandle();
     $req = $bdd->prepare("
-            SELECT  Address_Country.Name as Country, Address_County.Name as County, Address_Town.Name as Town, Address_Street.Name as Street, Tp.ID AS ID
+            SELECT  Address_Country.Name as Country, Address_County.Name as County, Address_Town.Name as Town, Address_Street.Name as Street, Tp.ID
             FROM Transportation Tp 
             INNER JOIN Transportation_Type TpT ON Tp.Type_ID = TpT.ID 
             INNER JOIN Address Ad ON Tp.Address_Arrival_ID = Ad.ID
