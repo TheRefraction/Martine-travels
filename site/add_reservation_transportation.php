@@ -156,7 +156,8 @@ if (!isset($_SESSION['email'])) {
                     }
                     //Creation of description
                     data.forEach(item => {
-                        const text = `${item.Country}, ${item.County}, ${item.Town}, ${item.Street}`;
+                        const text = `Arrival Address: ${item.Arrival_Country}, ${item.Arrival_County}, ${item.Arrival_Town}, ${item.Arrival_Street}\n` +
+                            `Departure Address: ${item.Departure_Country}, ${item.Departure_County}, ${item.Departure_Town}, ${item.Departure_Street}`;
                         description.textContent = text;
                     });
                 })
