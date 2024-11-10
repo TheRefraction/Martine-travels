@@ -1,8 +1,11 @@
 <?php
 include("connection.php");
-if (isset($_GET["ID"])) {
+if (isset($_GET["type"]) and isset($_GET["departure"]) and isset($_GET["arrival"]) and isset($_GET["date"])) {
 
-    $transportation_ID = $_GET["ID"];
+    $date = $_GET["date"];
+    $type = $_GET["type"];
+    $departure = $_GET["departure"];
+    $arrival = $_GET["arrival"];
     $bdd = get_dbhandle();
     $req = $bdd->prepare("
             SELECT  
@@ -14,6 +17,7 @@ if (isset($_GET["ID"])) {
     Address_Departure_County.Name AS Departure_County,
     Address_Departure_Town.Name AS Departure_Town,
     Address_Departure_Street.Name AS Departure_Street,
+    Provider.Name AS Provider,
     Tp.*
     FROM 
         Transportation Tp
@@ -39,12 +43,14 @@ if (isset($_GET["ID"])) {
         Address_Town AS Address_Departure_Town ON Address_Departure_Town.ID = Address_Departure.Town_ID
     INNER JOIN 
         Address_Street AS Address_Departure_Street ON Address_Departure_Street.ID = Address_Departure.Street_ID
+    INNER JOIN 
+        Transportation_Provider AS Provider ON Tp.Provider_ID = Provider.ID
     WHERE 
-        Tp.ID = :ID;
+       Tp.Address_Depature_ID = :departure AND Tp.Address_Arrival_ID = :arrival AND Tp.Type_ID=:type AND DATE(Tp.Date_Departure) = :date;
             ");
 
 // Execute query with correct parameter names
-    $req->execute(['ID' => $transportation_ID]);
+    $req->execute(['departure' => $departure,'arrival' => $arrival,'type' => $type, 'date' => $date]);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($data);
 }

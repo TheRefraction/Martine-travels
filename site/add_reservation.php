@@ -88,14 +88,27 @@ if (!isset($_SESSION['email'])) {
 
                 <?php
 
-                /*
-                $req = $bdd->prepare("SELECT De.Name, De.ID From Package Pa INNER JOIN Destination De ON De.ID = Pa.Destination_ID;");
+
+
+
+                $req = $bdd->prepare("
+                SELECT  Address_Country.Name as Country, Address_County.Name as County, Address_Town.Name as Town, Address_Street.Name as Street, Package_Type.Name as Type, Pa.*
+                FROM Package Pa
+                INNER JOIN Package_Type ON Pa.Type_ID = Package_Type.ID
+                INNER JOIN Address Ad ON Ad.ID = Pa.Address_ID
+                INNER JOIN Address_Country ON Address_Country.ID = Ad.Country_ID
+                INNER JOIN Address_County ON Address_County.ID = Ad.County_ID 
+                INNER JOIN Address_Town ON Address_Town.ID = Ad.Town_ID
+                INNER JOIN Address_Street ON Address_Street.ID = Ad.Street_ID
+                ");
+
                 $req->execute();
 
                 while ($data = $req->fetch()) {
-                    echo '<option value="' . $data["ID"] . '">' .  $data["Name"] . '</option>';
+                    $text = "{$data['Type']}, {$data['Duration']} days, {$data['Country']}, {$data['County']}, {$data['Town']}, {$data['Street']}, {$data['Price']}€";
+                    echo '<option value="' .$data["ID"]. '">' . $text . '</option>';
                 }
-                */
+
                 ?>
             </select>
         </div>

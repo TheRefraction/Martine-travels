@@ -176,23 +176,25 @@ if (!isset($_SESSION['email'])) {
 
     function button(){
 
+        const type = document.getElementById("type_transportation");
+        const date = document.getElementById("date_transportation");
+        const transportation_departure = document.getElementById("transportation_departure");
+        const transportation_arrival = document.getElementById("transportation_arrival");
         const form_transportation_add = document.getElementById("form_transportation_add");
         const form_next = document.getElementById("form_next");
-        const transportation_departure = document.getElementById("transportation_departure");
         const description = document.getElementById("description");
-        console.log("Selected transportation ID:", transportation_departure.value);
 
         //set invisible (in case of modification of previous select)
         form_transportation_add.hidden = true;
         form_next.hidden = true;
         description.hidden = true;
 
-        if(transportation_departure.value !== "NULL" ){
+        if(transportation_arrival.value !== "NULL" ){
             form_transportation_add.hidden = false;
             form_next.hidden = false;
             description.hidden = false;
-
-            fetch(`add_reservation_transportation_get_description.php?ID=${transportation_departure.value}`)
+            console.log("type:", type.value, "date:", date.value, "departure:", transportation_departure.value, "arrival:", transportation_arrival.value);
+            fetch(`add_reservation_transportation_get_description.php?departure=${transportation_departure.value}&arrival=${transportation_arrival.value}&type=${type.value}&date=${date.value}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -205,9 +207,11 @@ if (!isset($_SESSION['email'])) {
                     }
                     //Creation of description
                     data.forEach(item => {
-                        const text = `Arrival Address: ${item.Arrival_Country}, ${item.Arrival_County}, ${item.Arrival_Town}, ${item.Arrival_Street}\n` +
-                            `Departure Address: ${item.Departure_Country}, ${item.Departure_County}, ${item.Departure_Town}, ${item.Departure_Street}`;
-                        description.textContent = text;
+                            const text = `Arrival Address: ${item.Arrival_Country}, ${item.Arrival_County}, ${item.Arrival_Town}, ${item.Arrival_Street}<br>` +
+                                `Departure Address: ${item.Departure_Country}, ${item.Departure_County}, ${item.Departure_Town}, ${item.Departure_Street}<br>`+
+                                `Ticket Number : ${item.Ticket_Num}, Seat Number : ${item.Seat_Num}<br>`+
+                                `Provider : ${item.Provider}, Price : ${item.Ticket_Price}<br>`;
+                            description.innerHTML = text;
                     });
                 })
         }
