@@ -8,11 +8,11 @@
         exit();
     }
 
-    $email = $_SESSION['email'];
+    $ID = $_SESSION['ID'];
 
     $bdd = get_dbhandle();
-    $req = $bdd->prepare("SELECT * FROM User WHERE Email = ?");
-    $req->execute([$email]);
+    $req = $bdd->prepare("SELECT * FROM User WHERE ID = ?");
+    $req->execute([$ID]);
     $userData = $req->fetch();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -21,21 +21,22 @@
         $phone = $_POST['phone'];
         $passwd = $_POST['passwd'];
         $fname = $_POST['fname'];
+        $email = $_POST['email'];
 
-        if (empty($lname) || empty($birthday) || empty($phone) || empty($fname)) {
+        if (empty($lname) || empty($birthday) || empty($phone) || empty($fname) || empty($email) ){
             echo "Cannot have empty fields (except for password) in this form!";
             exit();
         }
 
         if (!empty($passwd)){
             $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
-            $updateReq = $bdd->prepare("UPDATE User SET Password = ? WHERE Email = ?");
+            $updateReq = $bdd->prepare("UPDATE User SET Password = ? WHERE ID = ?");
             $updateReq->execute([$hashedPassword]);
         }
 
 
-        $updateReq = $bdd->prepare("UPDATE User SET First_name = ?, Last_name = ?, Birth_date = ?, Phone = ? WHERE Email = ?");
-        $updateReq->execute([$fname, $lname, $birthday, $phone, $email]);
+        $updateReq = $bdd->prepare("UPDATE User SET Email = ?, First_name = ?, Last_name = ?, Birth_date = ?, Phone = ? WHERE ID = ?");
+        $updateReq->execute([$email, $fname, $lname, $birthday, $phone, $ID]);
 
         echo "Your information has been updated successfully.";
         exit();
@@ -66,7 +67,7 @@
                 </label> <br>
 
                 <label>
-                    Email : <input type="email" name="email" class="input-field" required="required" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="<?= htmlspecialchars($userData['Email']) ?>" readonly/>
+                    Email : <input type="email" name="email" class="input-field" required="required" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="<?= htmlspecialchars($userData['Email']) ?>" />
                 </label> <br>
 
                 <label>

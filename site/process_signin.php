@@ -3,6 +3,7 @@
 
     include("connection.php");
     $_SESSION['email']=$_POST['email'];
+    $_SESSION['ID']=$_POST['ID'];
 
     $email = $_POST['email'];
     $password = $_POST['password'];

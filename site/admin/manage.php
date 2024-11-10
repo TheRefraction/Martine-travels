@@ -36,18 +36,25 @@ $action = $_GET['action'] ?? 'view';
 $id = $_GET['id'] ?? null;
 
 if ($action == 'edit' && $id) {
-    // Display the form to edit a record
     displayForm($table, $id);
     $tableDisplayed = true;
 } elseif ($action == 'insert') {
-    // Display the form to insert a new record
     displayForm($table);
     $tableDisplayed = true;
 }
 
 if (!$tableDisplayed) {
-    // Display the table data
+
     displayTableData($table);
     echo "<a href='?table=$table&action=insert'>Add a new record</a>";
 }
+
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<br>
+<body><a href="test.php">back</a></body>
+</html>
