@@ -44,23 +44,64 @@ if (!isset($_SESSION['email'])) {
     </select><br><br>
 
     <label id="label_date" for="date_transportation">Choose the date of departure :</label><br>
-    <input type="date" id="date_transportation" name="date_departure" onchange="transport_departure()" /><br><br>
+    <input type="date" id="date_transportation" name="date_departure" onchange="transport()" /><br><br>
 
     <div id="transportation_div" hidden>
+        <label>Will only be deplayed the place where there are transportations</label><br>
 
-        <label id="label_transportation_departure" for="transportation_departure">Choose the place of Departure (will only display is there are transport of the type at the date selected):</label><br>
-        <select id="transportation_departure" onchange="transport_arrival()">
+        <label id="label_transportation_departure" for="transportation_departure">Choose the place of Departure:</label><br>
+        <select id="transportation_departure" onchange="button()">
             <option value="NULL">-- Choisissez une option --</option>
+            <?php
+
+            $sql = "
+                SELECT  Address_Country.Name as Country, Address_County.Name as County, Address_Town.Name as Town, Address_Street.Name as Street, Ad.ID
+                FROM Address Ad
+                INNER JOIN Address_Country ON Address_Country.ID = Ad.Country_ID
+                INNER JOIN Address_County ON Address_County.ID = Ad.County_ID 
+                INNER JOIN Address_Town ON Address_Town.ID = Ad.Town_ID
+                INNER JOIN Address_Street ON Address_Street.ID = Ad.Street_ID
+                WHERE (SELECT COUNT(*) FROM Transportation Tp WHERE Tp.Address_Depature_ID = Ad.ID) > 0;
+                ";
+
+            $req = $bdd->prepare($sql);
+            $req->execute();
+
+            while ($data = $req->fetch()) {
+                $fullAddress = "{$data['Country']}, {$data['County']}, {$data['Town']}, {$data['Street']}";
+                echo '<option value="' .$data["ID"]. '">' . $fullAddress . '</option>';
+            }
+            ?>
 
         </select><br><br>
 
-        <div id="div_transportation_arrival" hidden>
-            <label id="label_transportation" for="transportation_arrival">Choose the place of Arrival :</label><br>
-            <select id="transportation_arrival" onchange="button()">
-                <option value="NULL">-- Choisissez une option --</option>
+        <label id="label_transportation" for="transportation_arrival">Choose the place of Arrival :</label><br>
+        <select id="transportation_arrival" onchange="button()">
+            <option value="NULL">-- Choisissez une option --</option>
+            <?php
 
-            </select><br><br>
-        </div>
+            $sql = "
+            SELECT  Address_Country.Name as Country, Address_County.Name as County, Address_Town.Name as Town, Address_Street.Name as Street, Ad.ID
+            FROM Address Ad
+            INNER JOIN Address_Country ON Address_Country.ID = Ad.Country_ID
+            INNER JOIN Address_County ON Address_County.ID = Ad.County_ID 
+            INNER JOIN Address_Town ON Address_Town.ID = Ad.Town_ID
+            INNER JOIN Address_Street ON Address_Street.ID = Ad.Street_ID
+            WHERE (SELECT COUNT(*) FROM Transportation Tp WHERE Tp.Address_Arrival_ID = Ad.ID) > 0;
+            ";
+
+            $req = $bdd->prepare($sql);
+            $req->execute();
+
+            while ($data = $req->fetch()) {
+                $fullAddress = "{$data['Country']}, {$data['County']}, {$data['Town']}, {$data['Street']}";
+                echo '<option value="' .$data["ID"]. '">' . $fullAddress . '</option>';
+            }
+            ?>
+
+
+        </select><br><br>
+
 
     </div>
 
@@ -87,48 +128,14 @@ if (!isset($_SESSION['email'])) {
 
 <script>
 
-    function transport_departure() {
+    function transport() {
         const date = document.getElementById("date_transportation").value;
         const transportation_div = document.getElementById("transportation_div");
-        const type_transportation = document.getElementById("type_transportation");
-        const transportation_departure = document.getElementById("transportation_departure");
-
-        console.log("Selected date:", date);
-        console.log("Selected transportation:", type_transportation.value);
-
-        // Cacher le div en cas de modification précédente
         transportation_div.hidden = true;
-
-        // Vider les options précédentes sauf celles avec la valeur "NULL"
-        clearOptionsExceptNull(transportation_departure);
-
-
-        // Afficher le div et effectuer les requêtes seulement si la date est sélectionnée
         if (date) {
             transportation_div.hidden = false;
-
-            // Charger les options pour les deux listes déroulantes
-            fetchOptions(transportation_departure, `add_reservation_transportation_get.php?type=${type_transportation.value}&date=${date}`);
-
         }
     }
-
-    function transport_arrival(){
-
-        const transportation_arrival = document.getElementById("transportation_arrival");
-        const transportation_departure = document.getElementById("transportation_departure");
-        const type_transportation = document.getElementById("type_transportation");
-        const div_transportation_arrival = document.getElementById("div_transportation_arrival");
-
-        clearOptionsExceptNull(transportation_arrival);
-        div_transportation_arrival.hidden=true;
-
-        if(transportation_departure.value !== "NULL"){
-            div_transportation_arrival.hidden=false;
-            fetchOptions(transportation_arrival, `add_reservation_transportation_get.php?type=${type_transportation.value}&departure=${transportation_departure.value}`);
-        }
-    }
-
 
     // Fonction pour supprimer les options sauf celles avec la valeur "NULL"
     function clearOptionsExceptNull(selectElement) {
