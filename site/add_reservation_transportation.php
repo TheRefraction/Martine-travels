@@ -27,7 +27,7 @@ if (!isset($_SESSION['email'])) {
 
 
     <label id="label_type_transportation" for="type_transportation">Choose the type of transportation :</label><br>
-    <select id="type_transportation" onchange="transport()">
+    <select id="type_transportation" onchange="transport_departure()">
         <option value="NULL">-- Choisissez une option --</option>
 
         <?php
@@ -44,16 +44,23 @@ if (!isset($_SESSION['email'])) {
     </select><br><br>
 
     <label id="label_date" for="date_transportation">Choose the date of departure :</label><br>
-    <input type="date" id="date_transportation" name="date_departure" onchange="transport()" /><br><br>
+    <input type="date" id="date_transportation" name="date_departure" onchange="transport_departure()" /><br><br>
 
     <div id="transportation_div" hidden>
 
-        <label id="label_transportation" for="transportation">Choose the place of Arrival :</label><br>
-        <select id="transportation" onchange="button()">
+        <label id="label_transportation_departure" for="transportation_departure">Choose the place of Departure (will only display is there are transport of the type at the date selected):</label><br>
+        <select id="transportation_departure" onchange="transport_arrival()">
             <option value="NULL">-- Choisissez une option --</option>
 
         </select><br><br>
 
+        <div id="div_transportation_arrival" hidden>
+            <label id="label_transportation" for="transportation_arrival">Choose the place of Arrival :</label><br>
+            <select id="transportation_arrival" onchange="button()">
+                <option value="NULL">-- Choisissez une option --</option>
+
+            </select><br><br>
+        </div>
 
     </div>
 
@@ -80,70 +87,105 @@ if (!isset($_SESSION['email'])) {
 
 <script>
 
-    function transport() {
+    function transport_departure() {
         const date = document.getElementById("date_transportation").value;
         const transportation_div = document.getElementById("transportation_div");
         const type_transportation = document.getElementById("type_transportation");
-        const transportation = document.getElementById("transportation");
+        const transportation_departure = document.getElementById("transportation_departure");
 
         console.log("Selected date:", date);
         console.log("Selected transportation:", type_transportation.value);
 
-        //set invisible (in case of modification of previous select)
+        // Cacher le div en cas de modification précédente
         transportation_div.hidden = true;
 
-        //remove precedent option
-        for (let i = transportation.options.length - 1; i >= 0; i--) {
-            if (transportation.options[i].value !== "NULL") {
-                transportation.remove(i);
-            }
-        }
+        // Vider les options précédentes sauf celles avec la valeur "NULL"
+        clearOptionsExceptNull(transportation_departure);
 
+
+        // Afficher le div et effectuer les requêtes seulement si la date est sélectionnée
         if (date) {
             transportation_div.hidden = false;
 
-            fetch(`add_reservation_transportation_get.php?type=${type_transportation.value}&date=${date}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json(); // Attempt to parse JSON
-                })
-                .then(data => {
-                    if (!Array.isArray(data)) {
-                        throw new Error("Data format error: Expected an array");
-                    }
-                    // Process and add options from the fetched data
-                    data.forEach(item => {
-                        let option = document.createElement("option");
-                        const fullAddress = `${item.Country}, ${item.County}, ${item.Town}, ${item.Street}`;
-                        option.value = item.ID;
-                        option.textContent = fullAddress;
-                        transportation.appendChild(option);
-                    });
-                })
+            // Charger les options pour les deux listes déroulantes
+            fetchOptions(transportation_departure, `add_reservation_transportation_get.php?type=${type_transportation.value}&date=${date}`);
+
         }
+    }
+
+    function transport_arrival(){
+
+        const transportation_arrival = document.getElementById("transportation_arrival");
+        const transportation_departure = document.getElementById("transportation_departure");
+        const type_transportation = document.getElementById("type_transportation");
+        const div_transportation_arrival = document.getElementById("div_transportation_arrival");
+
+        clearOptionsExceptNull(transportation_arrival);
+        div_transportation_arrival.hidden=true;
+
+        if(transportation_departure.value !== "NULL"){
+            div_transportation_arrival.hidden=false;
+            fetchOptions(transportation_arrival, `add_reservation_transportation_get.php?type=${type_transportation.value}&departure=${transportation_departure.value}`);
+        }
+    }
+
+
+    // Fonction pour supprimer les options sauf celles avec la valeur "NULL"
+    function clearOptionsExceptNull(selectElement) {
+        for (let i = selectElement.options.length - 1; i >= 0; i--) {
+            if (selectElement.options[i].value !== "NULL") {
+                selectElement.remove(i);
+            }
+        }
+    }
+
+    // Fonction pour faire un fetch et ajouter des options à un élément select
+    function fetchOptions(selectElement, url) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("Data format error: Expected an array");
+                }
+                // Ajouter des options dans le selectElement
+                data.forEach(item => {
+                    let option = document.createElement("option");
+                    const fullAddress = `${item.Country}, ${item.County}, ${item.Town}, ${item.Street}`;
+                    option.value = item.ID;
+                    option.textContent = fullAddress;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Erreur lors de la récupération des données :", error);
+                alert("Une erreur est survenue lors de la récupération des données. Veuillez réessayer.");
+            });
     }
 
     function button(){
 
         const form_transportation_add = document.getElementById("form_transportation_add");
         const form_next = document.getElementById("form_next");
-        const transportation = document.getElementById("transportation");
+        const transportation_departure = document.getElementById("transportation_departure");
         const description = document.getElementById("description");
-        console.log("Selected transportation ID:", transportation.value);
+        console.log("Selected transportation ID:", transportation_departure.value);
 
         //set invisible (in case of modification of previous select)
         form_transportation_add.hidden = true;
         form_next.hidden = true;
         description.hidden = true;
 
-        if(transportation.value !== "NULL" ){
+        if(transportation_departure.value !== "NULL" ){
             form_transportation_add.hidden = false;
             form_next.hidden = false;
             description.hidden = false;
 
-            fetch(`add_reservation_transportation_get_description.php?ID=${transportation.value}`)
+            fetch(`add_reservation_transportation_get_description.php?ID=${transportation_departure.value}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
