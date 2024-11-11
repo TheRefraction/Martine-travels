@@ -3,7 +3,7 @@
 
     include("connection.php");
     $_SESSION['email']=$_POST['email'];
-    $_SESSION['ID']=$_POST['ID'];
+
 
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -13,7 +13,7 @@
     $req = $bdd->prepare("SELECT * FROM User WHERE Email = ?");
     $req->execute([$email]);
     $data = $req->fetch();
-
+    $_SESSION['ID']=$data['ID'];
     if(empty($data)) {
         echo "Authentication failed!\nPlease try again <a href='signin.php'>Here</a>.";
         exit();

@@ -13,6 +13,7 @@
     <li><a href="manage.php?table=Accommodation_Type">Manage Accommodation_Type Table</a></li>
     <li><a href="manage.php?table=Address">Manage Address Table</a></li>
     <li><a href="manage.php?table=Address_Country">Manage Address_Country Table</a></li>
+    <li><a href="manage.php?table=Address_County">Manage Address_County Table</a></li>
     <li><a href="manage.php?table=Address_Street">Manage Address_Street Table</a></li>
     <li><a href="manage.php?table=Address_Town">Manage Address_Town Table</a></li>
     <li><a href="manage.php?table=Amenity">Manage Amenity Table</a></li>

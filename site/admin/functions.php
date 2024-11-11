@@ -1,31 +1,28 @@
-
 <?php
-function get_dbhandle(): PDO
-{
-$host = "90.125.194.95";
-$dbname = "martine_travels";
-$dbuser = "martinesql";
-$dbpasswd = "martine";
-return new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $dbpasswd);
+function get_dbhandle(): PDO {
+    $host = "90.125.194.95";
+    $dbname = "martine_travels";
+    $dbuser = "martinesql";
+    $dbpasswd = "martine";
+    return new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $dbpasswd);
 }
 
 $pdo = get_dbhandle();
 
 function getTableColumnsWithType($table) {
-global $pdo;
-$stmt = $pdo->prepare("DESCRIBE $table");
-$stmt->execute();
-return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    global $pdo;
+    $stmt = $pdo->prepare("DESCRIBE $table");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 function displayTableData($table) {
     global $pdo;
-
-
     $stmt = $pdo->query("SELECT * FROM $table");
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (empty($rows)) {
-        echo "<p>No records found in the $table table.</p>";
+        echo "<p>Nothing found in the $table table.</p>";
         return;
     }
 
@@ -36,6 +33,7 @@ function displayTableData($table) {
     }
     echo "<th>Actions</th>";
     echo "</tr>";
+
     foreach ($rows as $row) {
         echo "<tr>";
         foreach ($row as $value) {
@@ -47,8 +45,6 @@ function displayTableData($table) {
     echo "</table>";
 }
 
-
-
 function getForeignKeys($table) {
     global $pdo;
     $query = "
@@ -59,6 +55,7 @@ function getForeignKeys($table) {
     $stmt->execute(['table' => $table]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 function displayForm($table, $id = null) {
     global $pdo;
 
@@ -85,33 +82,59 @@ function displayForm($table, $id = null) {
     foreach ($columns as $column) {
         $columnName = $column['Field'];
         $columnType = $column['Type'];
-        if ($columnName == 'ID' && !$id) {
+
+        if ($columnName == 'ID') {
             continue;
         }
-
         $value = isset($values[$columnName]) ? htmlspecialchars($values[$columnName]) : '';
 
         if (isset($foreignKeyMap[$columnName])) {
             $referencedTable = $foreignKeyMap[$columnName];
             $displayField = getDisplayField($referencedTable);
-            $query = "SELECT ID, $displayField AS DisplayName FROM $referencedTable";
-            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->prepare("SELECT ID, $displayField as DisplayName FROM $referencedTable");
             $stmt->execute();
             $options = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             echo "<label>$columnName: <select name='$columnName'>";
-            echo "<option value=''>Sélectionner une option</option>";
+            echo "<option value=''>Select an option</option>";
             foreach ($options as $option) {
                 $selected = $value == $option['ID'] ? 'selected' : '';
                 echo "<option value='" . $option['ID'] . "' $selected>" . htmlspecialchars($option['DisplayName']) . "</option>";
             }
             echo "</select></label><br>";
-        } else {
+        }
+
+        else if (strpos($columnType, 'date') !== false || strpos($columnType, 'time') !== false) {
+            $inputType = 'text';
+            if (strpos($columnType, 'timestamp') !== false) {
+                $inputType = 'datetime-local';
+                if ($value) {
+                    $value = date('Y-m-d\TH:i', strtotime($value)); // Format datetime
+                }
+            } elseif (strpos($columnType, 'date') !== false) {
+                $inputType = 'date';
+                if ($value) {
+                    $value = date('Y-m-d', strtotime($value)); // Format date
+                }
+            } elseif (strpos($columnType, 'time') !== false) {
+                $inputType = 'time';
+                if ($value) {
+                    $value = date('H:i', strtotime($value)); // Format time
+                }
+            }
+            echo "<label>$columnName: <input type='$inputType' name='$columnName' value='$value'></label><br>";
+        }
+
+        else if (strpos($columnType, 'int') !== false || strpos($columnType, 'decimal') !== false || strpos($columnType, 'float') !== false || strpos($columnType, 'double') !== false) {
+            echo "<label>$columnName: <input type='number' name='$columnName' value='$value'></label><br>";
+        }
+
+        else {
             echo "<label>$columnName: <input type='text' name='$columnName' value='$value'></label><br>";
         }
     }
 
-    echo "<button type='submit'>" . ($id ? 'Mettre à jour' : 'Ajouter') . "</button>";
+    echo "<button type='submit'>" . ($id ? 'Update' : 'Add') . "</button>";
     echo "</form>";
 }
 
@@ -121,41 +144,65 @@ function getDisplayField($tableName) {
     switch ($tableName) {
         case 'User':
             return "CONCAT(First_Name, ' ', Last_Name)";
-        case 'Accommodation':
-            return "Room_Type_ID";
-        case 'Package':
-            return "Type_ID";
-
+        case 'Accommodation_Type':
+            return "Name";
+        case 'Address_Country':
+            return "Name";
+        case 'Address_Street':
+            return "Name";
+        case 'Address_Town':
+            return "Name";
+        case 'Amenity':
+            return "Name";
+        case 'Package_Type':
+            return "Name";
+        case 'Payment_Method':
+            return "Name";
+        case 'Room_Type':
+            return "Name";
+        case 'Transportation_Provider':
+            return "Name";
+        case 'Transportation_Type':
+            return "Name";
         default:
             return "ID";
     }
 }
 
 
-
-
 function insertData($table, $data) {
     global $pdo;
 
-    if (isset($data['ID'])) {
-        unset($data['ID']);
+    if ($table == 'User' && isset($data['Password'])) {
+        $data['Password'] = password_hash($data['Password'], PASSWORD_DEFAULT);
     }
+
+
 
     $columns = implode(", ", array_keys($data));
     $placeholders = ":" . implode(", :", array_keys($data));
-    $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
 
+    $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
     $stmt = $pdo->prepare($sql);
+
     return $stmt->execute($data);
 }
 
 
+
+
 function updateData($table, $data, $id) {
     global $pdo;
+
+    if ($table == 'User' && isset($data['Password'])) {
+        // Hash the password before updating
+        $data['Password'] = password_hash($data['Password'], PASSWORD_DEFAULT);
+    }
+
     $sets = [];
     foreach ($data as $column => $value) {
-    $sets[] = "$column = :$column";
-}
+        $sets[] = "$column = :$column";
+    }
     $sql = "UPDATE $table SET " . implode(", ", $sets) . " WHERE ID = :id";
     $data['id'] = $id;
     $stmt = $pdo->prepare($sql);
@@ -164,25 +211,11 @@ function updateData($table, $data, $id) {
 
 function deleteData($table, $id) {
     global $pdo;
-
-
     if (!$table || !$id) {
-        echo "Table or ID missing.";
         return false;
     }
-
-
     $sql = "DELETE FROM $table WHERE ID = :id";
     $stmt = $pdo->prepare($sql);
-
-
-    if ($stmt->execute(['id' => $id])) {
-        echo "succes.";
-        return true;
-    } else {
-        echo "Erreur";
-        return false;
-    }
+    return $stmt->execute(['id' => $id]);
 }
-
 ?>

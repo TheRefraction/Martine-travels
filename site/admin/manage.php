@@ -29,26 +29,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     header("Location: ?table=$table");
     exit;
-}
+} elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
+    $table = $_GET['table'] ?? null;
+    $action = $_GET['action'] ?? 'view';
+    $id = $_GET['id'] ?? null;
 
-$action = $_GET['action'] ?? 'view';
-$id = $_GET['id'] ?? null;
-
-if ($action == 'edit' && $id) {
-    displayForm($table, $id);
-    $tableDisplayed = true;
-} elseif ($action == 'insert') {
-    displayForm($table);
-    $tableDisplayed = true;
+    if ($action == 'delete' && $id) {
+        deleteData($table, $id);
+        header("Location: ?table=$table");
+        exit;
+    } elseif ($action == 'edit' && $id) {
+        displayForm($table, $id);
+        $tableDisplayed = true;
+    } elseif ($action == 'insert') {
+        displayForm($table);
+        $tableDisplayed = true;
+    }
 }
 
 if (!$tableDisplayed) {
-
     displayTableData($table);
     echo "<a href='?table=$table&action=insert'>Add a new record</a>";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
