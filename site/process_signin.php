@@ -23,7 +23,7 @@
         $req = $bdd->prepare("UPDATE User SET Last_login = NOW() WHERE Email = ?");
         $req->execute([$email]);
 
-        if($data['Is_admin']) {
+        if($data['Is_Admin']) {
             header("Location: admin/test.php");
         } else {
             header("Location: account.php");
