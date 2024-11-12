@@ -166,6 +166,44 @@ function GetDisplayField($tableName) {
             return "Name";
         case 'Transportation_Type':
             return "Name";
+        case 'Package':
+            return  "CONCAT(
+            (SELECT Package_Type.Name FROM Package_Type WHERE Package.Type_ID = Package_Type.ID) , 
+            ' - ' , 
+            (SELECT Address_Country.Name 
+                     FROM Address 
+                     INNER JOIN Address_Country ON Address.Country_ID = Address_Country.ID 
+                     WHERE Address.ID = Package.Address_ID),
+            ' - ' , 
+            (SELECT Address_Town.Name 
+                     FROM Address 
+                     INNER JOIN Address_Town ON Address.Town_ID = Address_Town.ID 
+                     WHERE Address.ID = Package.Address_ID),
+            ' - ' ,
+            Duration , ' days ',' - ' , Price , '€ '
+            )";
+        case 'Accommodation':
+            return "CONCAT(
+            (SELECT Accommodation_Provider.Name FROM Accommodation_Provider WHERE Accommodation.Provider_ID = Accommodation_Provider.ID) ,
+            ' - ',
+            (SELECT Room_Type.Name FROM Room_Type WHERE Accommodation.Room_Type_ID = Room_Type.ID) ,
+            ' - ', 
+            Price_Per_Night
+            )";
+        case 'Transportation':
+            return "CONCAT(
+            (SELECT Transportation_Type.Name FROM Transportation_Type WHERE Transportation.Type_ID = Transportation_Type.ID), 
+            ' - ', 
+            (SELECT Transportation_Provider.Name FROM Transportation_Provider WHERE Transportation.Provider_ID = Transportation_Provider.ID), 
+            ' - ', 
+            Date_Departure
+        )";
+
+        case 'Reservation':
+            return "CONCAT(
+            (SELECT User.Last_Name FROM User WHERE User.ID = Reservation.Client_ID),
+            ' - ', Status
+    )";
         default:
             return "ID";
     }
