@@ -20,11 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = array_filter($_POST, fn($key) => !in_array($key, ['table', 'action', 'id']), ARRAY_FILTER_USE_KEY);
 
     if ($action == 'insert') {
-        insertData($table, $data);
+        InsertData($table, $data);
     } elseif ($action == 'update' && $id) {
-        updateData($table, $data, $id);
+        UpdateData($table, $data, $id);
     } elseif ($action == 'delete' && $id) {
-        deleteData($table, $id);
+        DeleteData($table, $id);
     }
 
     header("Location: ?table=$table");
@@ -36,20 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_GET['id'] ?? null;
 
     if ($action == 'delete' && $id) {
-        deleteData($table, $id);
+        DeleteData($table, $id);
         header("Location: ?table=$table");
         exit;
     } elseif ($action == 'edit' && $id) {
-        displayForm($table, $id);
+        DisplayForm($table, $id);
         $tableDisplayed = true;
     } elseif ($action == 'insert') {
-        displayForm($table);
+        DisplayForm($table);
         $tableDisplayed = true;
     }
 }
 
 if (!$tableDisplayed) {
-    displayTableData($table);
+    DisplayTableData($table);
     echo "<a href='?table=$table&action=insert'>Add a new record</a>";
 }
 ?>
@@ -59,5 +59,5 @@ if (!$tableDisplayed) {
     <meta charset="UTF-8">
 </head>
 <br>
-<body><a href="test.php">back</a></body>
+<body><a href="admin.php">back (manage another table)</a></body>
 </html>

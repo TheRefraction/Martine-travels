@@ -9,14 +9,14 @@ function get_dbhandle(): PDO {
 
 $pdo = get_dbhandle();
 
-function getTableColumnsWithType($table) {
+function GetTableColumnsWithType($table) {
     global $pdo;
     $stmt = $pdo->prepare("DESCRIBE $table");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function displayTableData($table) {
+function DisplayTableData($table) {
     global $pdo;
     $stmt = $pdo->query("SELECT * FROM $table");
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +45,7 @@ function displayTableData($table) {
     echo "</table>";
 }
 
-function getForeignKeys($table) {
+function GetForeignKeys($table) {
     global $pdo;
     $query = "
         SELECT COLUMN_NAME, REFERENCED_TABLE_NAME
@@ -56,11 +56,11 @@ function getForeignKeys($table) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function displayForm($table, $id = null) {
+function DisplayForm($table, $id = null) {
     global $pdo;
 
-    $columns = getTableColumnsWithType($table);
-    $foreignKeys = getForeignKeys($table);
+    $columns = GetTableColumnsWithType($table);
+    $foreignKeys = GetForeignKeys($table);
 
     $foreignKeyMap = [];
     foreach ($foreignKeys as $foreignKey) {
@@ -90,7 +90,7 @@ function displayForm($table, $id = null) {
 
         if (isset($foreignKeyMap[$columnName])) {
             $referencedTable = $foreignKeyMap[$columnName];
-            $displayField = getDisplayField($referencedTable);
+            $displayField = GetDisplayField($referencedTable);
             $stmt = $pdo->prepare("SELECT ID, $displayField as DisplayName FROM $referencedTable");
             $stmt->execute();
             $options = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -114,12 +114,12 @@ function displayForm($table, $id = null) {
             } elseif (strpos($columnType, 'date') !== false) {
                 $inputType = 'date';
                 if ($value) {
-                    $value = date('Y-m-d', strtotime($value)); // Format date
+                    $value = date('Y-m-d', strtotime($value));
                 }
             } elseif (strpos($columnType, 'time') !== false) {
                 $inputType = 'time';
                 if ($value) {
-                    $value = date('H:i', strtotime($value)); // Format time
+                    $value = date('H:i', strtotime($value));
                 }
             }
             echo "<label>$columnName: <input type='$inputType' name='$columnName' value='$value'></label><br>";
@@ -140,7 +140,7 @@ function displayForm($table, $id = null) {
 
 
 
-function getDisplayField($tableName) {
+function GetDisplayField($tableName) {
     switch ($tableName) {
         case 'User':
             return "CONCAT(First_Name, ' ', Last_Name)";
@@ -160,6 +160,8 @@ function getDisplayField($tableName) {
             return "Name";
         case 'Room_Type':
             return "Name";
+        case 'County':
+            return "Name";
         case 'Transportation_Provider':
             return "Name";
         case 'Transportation_Type':
@@ -169,16 +171,12 @@ function getDisplayField($tableName) {
     }
 }
 
-
-function insertData($table, $data) {
+function InsertData($table, $data) {
     global $pdo;
 
     if ($table == 'User' && isset($data['Password'])) {
         $data['Password'] = password_hash($data['Password'], PASSWORD_DEFAULT);
     }
-
-
-
     $columns = implode(", ", array_keys($data));
     $placeholders = ":" . implode(", :", array_keys($data));
 
@@ -188,14 +186,10 @@ function insertData($table, $data) {
     return $stmt->execute($data);
 }
 
-
-
-
-function updateData($table, $data, $id) {
+function UpdateData($table, $data, $id) {
     global $pdo;
 
     if ($table == 'User' && isset($data['Password'])) {
-        // Hash the password before updating
         $data['Password'] = password_hash($data['Password'], PASSWORD_DEFAULT);
     }
 
@@ -209,7 +203,7 @@ function updateData($table, $data, $id) {
     return $stmt->execute($data);
 }
 
-function deleteData($table, $id) {
+function DeleteData($table, $id) {
     global $pdo;
     if (!$table || !$id) {
         return false;

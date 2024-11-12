@@ -24,7 +24,7 @@
         $req->execute([$email]);
 
         if($data['Is_Admin']) {
-            header("Location: admin/test.php");
+            header("Location: admin/admin.php");
         } else {
             header("Location: account.php");
         }
