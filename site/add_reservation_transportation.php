@@ -47,7 +47,7 @@ if (!isset($_SESSION['email'])) {
     <input type="date" id="date_transportation" name="date_departure" onchange="transport()" /><br><br>
 
     <div id="transportation_div" hidden>
-        <label>Will only be deplayed the place where there are transportations</label><br>
+        <label>Will only be deplayed the places where there are transportations (at any given time or type of transportation)</label><br>
 
         <label id="label_transportation_departure" for="transportation_departure">Choose the place of Departure:</label><br>
         <select id="transportation_departure" onchange="button()">
@@ -204,6 +204,11 @@ if (!isset($_SESSION['email'])) {
                 .then(data => {
                     if (!Array.isArray(data)) {
                         throw new Error("Data format error: Expected an array");
+                    }
+                    if (data.length === 0) {
+                        // Display message if no transportation is found
+                        description.innerHTML = "There is no transportation with those parameters";
+                        return;
                     }
                     //Creation of description
                     data.forEach(item => {
