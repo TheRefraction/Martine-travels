@@ -56,7 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['transportation_form']
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['transportation_form'])) {
     $transportID = $_POST['type_transportation'];
 
-    if ($transportID != "NULL") {
+    $verification = $bdd->prepare("SELECT COUNT(*) FROM Transportation_Preferences WHERE User_ID = ? AND Transport_ID = ?");
+    $verification->execute([$ID, $transportID]);
+    $exists = $verification->fetchColumn();
+
+    if ($exists) {
+        echo "This transportation preference has already been added.";
+    } elseif ($transportID != "NULL") {
         $insertReq = $bdd->prepare("INSERT INTO Transportation_Preferences (User_ID, Transport_ID) VALUES (?, ?)");
         $insertReq->execute([$ID, $transportID]);
         header("location:settings.php");
@@ -64,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['transportation_form'])
         echo "Please select a valid transportation type.";
     }
 }
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_preference'])) {
     $transportIDToDelete = $_POST['delete_preference'];
@@ -145,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_preference'])) 
         <input type="submit" value="Add Preference"/>
     </form>
 
-    <h2>Your Current Transportation Preferences:</h2>
+    <h2>Your Actual Transportation Preferences:</h2>
     <ul>
         <?php
         if (empty($currentPreferences)) {
