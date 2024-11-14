@@ -11,6 +11,7 @@
             echo "<a href=account.php>My account</a>";
             echo "<a href=settings.php>Settings</a>";
             echo "<a href=signout.php>Sign out</a>";
+            echo "<a href=payment.php>Payment</a>";
         }
     ?>
 </header>
