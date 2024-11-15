@@ -75,14 +75,17 @@ if (!isset($_SESSION['email'])) {
 
                     <form method="post" id='form_header' action="add_reservation_transportation.php" hidden>
                         <label>
-                            <input type="submit" name='transportation_header' value="Go to transportations"/><br>
+                            <input type="submit" name='transportation_header' value="I want to add a transportation"/><br>
+                        </label><br>
+                    </form><br>
+                    <form method="post" id='form_header_non' action="" hidden>
+                        <label>
+                            <input type="submit" name='custom_no_transportation' value="I don't want to add a transportation"/><br>
                         </label><br>
                     </form><br>
 
                 </div>
-
             </div>
-
             </div><br>
 
         </div>
@@ -224,10 +227,13 @@ if (!isset($_SESSION['email'])) {
             function next(){
                 const accomodation_detail = document.getElementById("accomodation_detail");
                 const next = document.getElementById("form_header");
+                const no = document.getElementById("form_header_non");
 
+                no.hidden = true;
                 next.hidden = true;
                 if(accomodation_detail.value !== "NULL"){
                     next.hidden = false;
+                    no.hidden = false;
                 }
             }
 

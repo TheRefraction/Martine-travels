@@ -118,9 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_preference'])) 
         <br>
         <input type="submit" value="Update Information"/>
     </form>
-</section>
 
-<section class="Preferences">
     <h1>Transportation Preferences</h1>
     <form method="post" action="settings.php">
         <input type="hidden" name="transportation_form" value="1"/>
