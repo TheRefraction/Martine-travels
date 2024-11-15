@@ -5,7 +5,7 @@ include("connection.php");
 header("Content-Type: application/json");
 
 if (isset($_GET["pays"])) {
-    $pays = intval($_GET["pays"]);  // Récupérer l'ID du pays de manière sécurisée
+    $pays = $_GET["pays"];
 
     // Connexion à la base de données
     $bdd = get_dbhandle();
