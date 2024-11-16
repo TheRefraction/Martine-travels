@@ -1,6 +1,6 @@
 <?php
 include("functions.php");
-include("../connection.php");
+include_once("../connection.php");
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['ID'])) {
