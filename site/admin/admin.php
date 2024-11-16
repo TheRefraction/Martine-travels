@@ -1,4 +1,22 @@
+<?php
+include("functions.php");
+include("../connection.php");
 
+if (session_status() === PHP_SESSION_NONE) session_start();
+if (!isset($_SESSION['ID'])) {
+header("Location: ../signin.php");
+exit();}
+    $ID = $_SESSION['ID'];
+    $pdo = get_dbhandle();
+    $stmt = $pdo->prepare("SELECT Is_Admin FROM User WHERE ID = :id");
+    $stmt->bindParam(':id', $ID, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$result || $result['Is_Admin'] != 1) {
+        header("Location: ../signin.php");
+        exit();}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
