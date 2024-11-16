@@ -1,7 +1,7 @@
 <?php
-include_once("../connection.php");
+include("../connection.php");
 
-
+$pdo=get_dbhandle();
 function GetTableColumnsWithType($table) {
     global $pdo;
     $stmt = $pdo->prepare("DESCRIBE $table");

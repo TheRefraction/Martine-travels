@@ -1,6 +1,5 @@
 <?php
 include("functions.php");
-
 $table = $_GET['table'] ?? null;
 
 if (!$table) {
@@ -57,6 +56,7 @@ if (!$tableDisplayed) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href ="../css/style_admin.css" rel="stylesheet">
 </head>
 <br>
 <body><a href="admin.php">back (manage another table)</a></body>

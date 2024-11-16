@@ -1,0 +1,221 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f0ff;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Header Section */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #4c2b7f;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+ul li {
+    display: inline-block;
+    margin: 10px;
+}
+
+ul li a {
+    text-decoration: none;
+    font-size: 1.1em;
+    color: #341d53;
+    background-color: #d6c7f5;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+ul li a:hover {
+    background-color: #8f6ce6;
+    color: white;
+    text-decoration: underline;
+}
+
+/* Table Styles */
+table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    width: 90%;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead tr {
+    background-color: #acfffc;
+    color: #333;
+    font-size: 1.2em;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f4f0ff;
+}
+
+tbody tr:last-child {
+    border-bottom: 2px solid #acfffc;
+}
+
+/* Buttons and Links */
+a.button {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background-color: #5e3ea1;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 20px auto;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+a.button:hover {
+    background-color: #8f6ce6;
+    text-decoration: underline;
+}
+
+/* Form Styles */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    font-size: 1.1em;
+    color: #341d53;
+    margin-bottom: 8px;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form input[type="submit"] {
+    background-color: #5e3ea1;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #8f6ce6;
+    text-decoration: underline;
+}
+
+/* Footer Link */
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+footer a {
+    text-decoration: none;
+    color: #4c2b7f;
+    font-size: 1em;
+}
+
+footer a:hover {
+    color: #8f6ce6;
+    text-decoration: underline;
+}
+ul {
+    list-style-type: none; /* Retire les puces */
+    padding: 0;
+    margin: 0 auto;
+    max-width: 600px; /* Limite la largeur pour un meilleur alignement */
+    text-align: left;
+}
+
+ul li {
+    margin: 5px 0; /* Réduit l'espacement vertical entre les éléments */
+}
+
+ul li a {
+    display: block; /* Les liens occupent toute la largeur pour un meilleur clic */
+    text-decoration: none;
+    font-size: 1em; /* Réduit la taille de la police */
+    color: #341d53;
+    background-color: #d6c7f5;
+    padding: 8px 12px; /* Réduit le padding pour une hauteur moindre */
+    border-radius: 4px; /* Coins légèrement arrondis */
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+ul li a:hover {
+    background-color: #8f6ce6;
+    color: white;
+    text-decoration: underline;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #d6c7f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+header a {
+    text-decoration: none;
+    color: black;
+    margin: 0 15px;
+}
+
+header a:hover {
+    background: #e6def7;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.logo {
+    height: 70px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f0ff;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+    padding-top: 70px;
+}

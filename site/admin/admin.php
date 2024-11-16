@@ -1,28 +1,30 @@
+
 <?php
-include("functions.php");
+include_once("functions.php");
 include_once("../connection.php");
+include('header_admin.php');
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['ID'])) {
-header("Location: ../signin.php");
-exit();}
-    $ID = $_SESSION['ID'];
-    $pdo = get_dbhandle();
-    $stmt = $pdo->prepare("SELECT Is_Admin FROM User WHERE ID = :id");
-    $stmt->bindParam(':id', $ID, PDO::PARAM_INT);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    header("Location: signin.php");
+    exit();}
+$ID = $_SESSION['ID'];
+$pdo = get_dbhandle();
+$stmt = $pdo->prepare("SELECT Is_Admin FROM User WHERE ID = :id");
+$stmt->bindParam(':id', $ID, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$result || $result['Is_Admin'] != 1) {
-        header("Location: ../signin.php");
-        exit();}
+if (!$result || $result['Is_Admin'] != 1) {
+    header("Location: ../signin.php");
+    exit();}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Database Table Management</title>
+    <link href ="../css/style_admin.css" rel="stylesheet">
 </head>
 <body>
 <h1>Manage Database Tables</h1>
@@ -54,4 +56,3 @@ exit();}
 </ul>
 </body>
 </html>
-

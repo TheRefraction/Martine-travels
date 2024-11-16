@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    include("connection.php");
+    include_once("connection.php");
     $_SESSION['email']=$_POST['email'];
 
 
