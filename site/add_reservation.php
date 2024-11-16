@@ -27,11 +27,12 @@ if (!isset($_SESSION['email'])) {
 
         <h1>Reservation for your vacations</h1><br>
 
+        <form method="post" id="form_premade_transportation" action="add_reservation_accomodation_process.php">
+
 
         <label for="options">Please select an option :</label><br>
-
             <!-- Custom or premade-->
-        <select id="options" onchange="afficherLabel()">
+        <select id="options" name="options" onchange="afficherLabel()">
             <option value="">-- Choose an option --</option>
             <option value="custom">Custom made package</option>
             <option value="premade">Package Premade</option>
@@ -42,7 +43,7 @@ if (!isset($_SESSION['email'])) {
         <div id="labelCustom" class="label" hidden>
             <div><br>
                 <label for="pays">Choose where you want to go :</label><br>
-                <select id="pays" onchange="accomodation()">
+                <select id="pays" name="pays" onchange="function_accomodation()">
                     <option value="NULL">----- Choisissez une option ----</option>
 
 
@@ -62,27 +63,24 @@ if (!isset($_SESSION['email'])) {
 
             <div id="div_accomodation" hidden>
                 <label id="label_accomodation" for="accomodation">Choose in which of the following accomodation (in the country) you want to go :</label><br>
-                <select id="accomodation" onchange="detail()">
+                <select id="accomodation" name="accomodation" onchange="detail()">
                     <option value="NULL">-- Choisissez une option --</option>
                 </select><br><br>
 
                 <div id="div_accomodation_detail" hidden>
 
                     <label id="label_accomodation_detail" for="accomodation_detail">Choose the following details :</label><br>
-                    <select id="accomodation_detail" onchange="next()">
+                    <select id="accomodation_detail" name="accomodation_detail" onchange="next()">
                         <option value="NULL">-- Choisissez une option --</option>
                     </select><br><br>
 
-                    <form method="post" id='form_header' action="add_reservation_transportation.php" hidden>
-                        <label>
-                            <input type="submit" name='transportation_header' value="I want to add a transportation"/><br>
-                        </label><br>
-                    </form><br>
-                    <form method="post" id='form_header_non' action="" hidden>
-                        <label>
-                            <input type="submit" name='custom_no_transportation' value="I don't want to add a transportation"/><br>
-                        </label><br>
-                    </form><br>
+
+                    <label>
+                        <input type="submit" id="transportation_header" name='transportation_header' value="I want to add a transportation"/><br>
+                    </label><br>
+                    <label>
+                        <input type="submit" id= "custom_no_transportation" name='custom_no_transportation' value="I don't want to add a transportation"/><br>
+                    </label><br>
 
                 </div>
             </div>
@@ -94,7 +92,7 @@ if (!isset($_SESSION['email'])) {
         <div id="labelPremade" hidden>
             <br>
                 <label for="package_choice">Choose the package</label><br>
-                <select id="package_choice" onchange="transportation_description()">
+                <select id="package_choice" name="package_choice" onchange="transportation_description()">
                     <option value="" disabled selected>-- Choisissez une option --</option>
                     <?php
                     $req = $bdd->prepare("
@@ -122,20 +120,17 @@ if (!isset($_SESSION['email'])) {
             </div><br>
 
 
-            <form method="post" id="form_premade_transportation" action="">
-            <label>
-                    <input type="submit" name='premade_next_transportation' value="I want to add a transportation"/>
-                </label>
-            </form><br>
 
-            <form method="post" id="form_premade_no" action="">
-                <label>
-                    <input type="submit" name='premade_next_no' value="I don't want to add a transportation"/>
-                </label>
-            </form>
+            <label>
+                <input type="submit" name='premade_next_transportation' value="I want to add a transportation"/>
+            </label>
+            <label>
+                <input type="submit" name='premade_next_no' value="I don't want to add a transportation"/>
+            </label>
+
 
         </div>
-
+        </form>
         <script>
             function afficherLabel() {
                 // Récupère l'élément select et les labels
@@ -157,7 +152,7 @@ if (!isset($_SESSION['email'])) {
                 }
             }
 
-            function accomodation(){
+            function function_accomodation(){
 
                 const paysSelect = document.getElementById("pays");
                 const accommodationSelect = document.getElementById("accomodation");
@@ -226,8 +221,8 @@ if (!isset($_SESSION['email'])) {
 
             function next(){
                 const accomodation_detail = document.getElementById("accomodation_detail");
-                const next = document.getElementById("form_header");
-                const no = document.getElementById("form_header_non");
+                const next = document.getElementById("transportation_header");
+                const no = document.getElementById("custom_no_transportation");
 
                 no.hidden = true;
                 next.hidden = true;
