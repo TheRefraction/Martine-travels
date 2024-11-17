@@ -53,21 +53,30 @@ header {
     width: 100%;
     background: #d6c7f5;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 header a {
     text-decoration: none;
     color: black;
-    margin: 0 15px;
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 16px;
 }
 
 header a:hover {
     background: #e6def7;
     border-radius: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 
 .logo {
@@ -75,6 +84,7 @@ header a:hover {
     margin-right: 10px;
     vertical-align: middle;
 }
+
 .logo2 {
     height: 70px;
     margin-right: 10px;
