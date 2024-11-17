@@ -51,7 +51,7 @@ if ($reservationID) {
             $insertReview->execute([$userID, $packageID, $transportationID, $accommodationID, $title, $content, $rating]);
 
             echo "Review added successfully!";
-            header("Location: my_account.php");
+            header("Location: account.php");
             exit();
         }
     }
