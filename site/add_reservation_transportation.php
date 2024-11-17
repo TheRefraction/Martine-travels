@@ -7,6 +7,12 @@ if (!isset($_SESSION['email'])) {
     header("Location: signin.php");
     exit();
 }
+if (isset($_GET["id"])) {
+    $reservation = $_GET["id"];
+}
+else{
+    $reservation = "NULL";
+}
 
 ?>
 
@@ -25,6 +31,10 @@ if (!isset($_SESSION['email'])) {
 
     <h1>Transportation reservation</h1><br>
 
+    <form id="form_next" method="post" action="add_reservation_transportation_process.php">
+
+    <input type="hidden" name="reservation" value="<?php echo $reservation; ?>" /> <!-- Hidden input is used for add_reservation_transportation_process.php-->
+    <input type="hidden" id="transportation_id" name="transportation_id" value="NULL" /> <!-- Hidden input is used for add_reservation_transportation_process.php-->
 
     <label id="label_type_transportation" for="type_transportation">Choose the type of transportation :</label><br>
     <select id="type_transportation" onchange="transport_departure()">
@@ -110,20 +120,14 @@ if (!isset($_SESSION['email'])) {
 
     </div><br>
 
-    <form id="form_transportation_add" method="post" onchange="" hidden>
-        <label>
-            <input type="submit" name='transportation_ajout' value="Validate and add another transportation" /><br>
-        </label>
-    </form><br>
-
-    <form id="form_next" method="post" onchange="" hidden>
+    <div id="button_next" hidden>
         <label>
             <input type="submit" name='label_next' value="Validate and go to the next step" /><br>
         </label>
+    </div>
+
+
     </form>
-
-
-
 </section>
 
 <script>
@@ -180,18 +184,18 @@ if (!isset($_SESSION['email'])) {
         const date = document.getElementById("date_transportation");
         const transportation_departure = document.getElementById("transportation_departure");
         const transportation_arrival = document.getElementById("transportation_arrival");
-        const form_transportation_add = document.getElementById("form_transportation_add");
-        const form_next = document.getElementById("form_next");
+        const button_next = document.getElementById("button_next");
         const description = document.getElementById("description");
+        const transportation_id = document.getElementById("transportation_id");
+
 
         //set invisible (in case of modification of previous select)
-        form_transportation_add.hidden = true;
-        form_next.hidden = true;
+
+        button_next.hidden = true;
         description.hidden = true;
 
         if(transportation_arrival.value !== "NULL" ){
-            form_transportation_add.hidden = false;
-            form_next.hidden = false;
+            button_next.hidden = false;
             description.hidden = false;
             console.log("type:", type.value, "date:", date.value, "departure:", transportation_departure.value, "arrival:", transportation_arrival.value);
             fetch(`add_reservation_transportation_get_description.php?departure=${transportation_departure.value}&arrival=${transportation_arrival.value}&type=${type.value}&date=${date.value}`)
@@ -217,6 +221,8 @@ if (!isset($_SESSION['email'])) {
                                 `Ticket Number : ${item.Ticket_Num}, Seat Number : ${item.Seat_Num}<br>`+
                                 `Provider : ${item.Provider}, Price : ${item.Ticket_Price}<br>`;
                             description.innerHTML = text;
+                            transportation_id.value = item.ID;
+                            console.log("transportation_id=", transportation_id.value);
                     });
                 })
         }

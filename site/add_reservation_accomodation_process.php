@@ -64,7 +64,7 @@ if(isset($_POST["options"]) and $_POST["options"] == "custom"){
 
 
     if(isset($_POST["transportation_header"])){
-        header("Location:add_reservation_transportation_get_description.php?id=" . $newReservationId);
+        header("Location:add_reservation_transportation.php?id=" . $newReservationId);
     }
     elseif (isset($_POST["custom_no_transportation"])) {
         header("Location:payment.php");
