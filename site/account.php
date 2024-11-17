@@ -42,11 +42,6 @@
 
             </form>
 
-            <form method="post" action="modify_reservation.php">
-                <label>
-                    <input type="submit" name='home_modify' value="Modify a reservation" /><br><br>
-                </label><br>
-
                 <h2>Your old reservations</h2>
 
                 <?php
