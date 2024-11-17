@@ -98,7 +98,11 @@ In order to respect the subject specifications we had to design a database model
 
 %-----------------------------------------------
 \section{Front \& Back-end Design}
-\paragraph{} TEST
+\paragraph{} 
+Another important point of this work was to design and program a simple web interface in order to do at least "Login \& User Authentication", "Client Management", "Travel Package Management" and "Reservation System" pages. The latter are all explained down below.
+
+\paragraph{}
+The home page (\textit{a.k.a the homepage}) is \verb|site/index.php|. Also in order to offer a wonderful browsing experience to the user on our website, we decided to use CSS Styles to make the website more enjoyable. These can be found under \verb|site/css/|.
 
 \subsection{Login \& User Authentication}
 \paragraph{}
@@ -119,20 +123,36 @@ We've also decided to add an extra ID attribute for tables intervening in many-t
 \paragraph{}
 In order to prevent any staff member to enter invalid data or modify read-only attributes we set some rules down. First administrators are not allowed to directly modify any primary ID. Next forms will prevent anyone from sending data that is either invalid or in the wrong format/datatype (\textit{e.g text, timestamp, integer, \ldots}). Nevertheless there is no constraint on dates validity and coherence since scheduling is quite the task.
 \paragraph{}
-Finally there is "\textit{super-admin}" which can be logged into using the following credentials:\\\verb|admin@gmail.com, admin|. By the way the reader must keep in mind that the password was so trivial to make testing easier, and to \textbf{never} use such weak passwords for any user with higher permissions. Moreover only an administrator can grant a user admin rights. 
+Finally there is a "\textit{super-admin}" which can be logged into using the following credentials:\\\verb|admin@gmail.com, admin|. By the way the reader must keep in mind that the password was so trivial to make testing easier, and to \textbf{never} use such weak passwords for any user with higher permissions. Moreover only an administrator can grant a user admin rights. 
 
 \subsubsection{Code explanation}
 \paragraph{}
 Only administrators can enter the \verb|site/admin/admin.php| page. When one first arrive on that page they are asked to choose a table to modify. This can be done by clicking on the corresponding link. Then they are redirected to a page which displays all records from a table. This is because of a \verb|PHP| page of which two arguments are passed: the name of the table and the action to perform. The first one is used in \verb|DisplayTableData| which as its name suggests, displays the table. Then the second one is used in \verb|DisplayForm| which allows the admin to modify a record and checks for data format coherence.
 
 \subsection{Reservation System}
+\paragraph{}
+Any client can choose to make a reservation (\textit{in their Account page}) whether pre made or personalized. The first one is the easiest as every information has already been entered by a staff member. The second one is trickier because everything must be done by the user and currently there is not enough data in the database to make a whole batch of different new packages.
+\paragraph{}
+The page \verb|site/add_reservation.php| asks for all those information and displays dynamically buttons and possible choices (\textit{according to the previous ones}) using JavaScript. This is done through another \verb|PHP| file which queries data from the database then creates a Json file from it. Next the latter is recovered and processed by a script which displays the new options.
+\paragraph{}
+At the end when all required data has been acquired a button labeled "Next" enables the user to finalize the reservation. Finally they can pay it by going on the "Payment" page.
 
 \subsection{Other features}
 \subsubsection{Inactive users deletion}
 \paragraph{}
 We have added a small scheduled event (\textit{every five minutes}) which looks for users who have not used the website in two years, then deletes the latter.
 
-\subsubsection{Downloading reservation receipts}
+\subsubsection{Payment page}
+\paragraph{}
+When at a least one reservation has been made the client may choose to pay one with any of the supported payment methods. When those choices have been made a simple click on the button labeled "Pay" triggers the process.
+\paragraph{}
+In real life an other organization such as a bank takes care of money-related troubles ; our website must not store bank details as those are sensitive data. Indeed we should only receive a confirmation of the bank (\textit{or accommodation/transportation provider if using cash}) to mark the payment as completed. Thus we decided to simulate all these steps by a "pay" button.
+\paragraph{}
+When it has been done, another button to download the receipt appears. Also because we do not verify for dates coherence, the corresponding reservation is directly marked as "completed" instead of "pending".
+
+\subsubsection{Reviews}
+\paragraph{}
+When a travel is marked as "completed", it appears on the home page and users are allowed to leave a review. However there isn't yet any code to display reviews.
 
 %-----------------------------------------------
 \section{Organization}
@@ -161,11 +181,17 @@ For more information on how to connect to the database, please see Appendix \ref
 \newpage
 \section{Conclusion}
 \paragraph{}
-In conclusion, 
+In conclusion, this project showed us how databases can be used in daily life operations. We have also realized the significance of designing a thorough and normalized database structure ; indeed it must comprehensive by anyone who reads it and must limit redundancies. 
+
+\paragraph{}
+Moreover this subject is a tangible and realistic situation in which anyone can imagine themselves. As future engineers it is our job to ensure that the whole system works, thus we have a huge impact on the company's success. Also this work taught us to work and collaborate together, to express different ideas, compare opinions.
 
 \paragraph{Difficulties}
+We have faced four majors difficulties during this project. First of all in our view, the bill of specifications was sometimes too long or complicated. There were indeed too many entities and cases to manage at once, especially with transportation and accommodation providers. Secondly so as to implement some features (\textit{e.g the administrator page}), we had to read a big part of the \verb|PHP| and Javascript documentation, for which we spent a lot of time whereas we could have used it to enhance some features or add more things. Another big issue we have had is using XAMPP as it was (\textit{and still is}) a unstable piece of software. We've had indeed multiple occasions where we've had to uninstall and then reinstall XAMPP from the system, and it still would not work properly. Thus, the importance of using a mini-server on Linux. Moreover we preferred to use \verb|PHP| as a standalone software and configure the \verb|php.ini| file which took quite some time.
+Finally, we think it may be better to have more students per group as there are many things to do. Despite it we realize that the more people in a group the more chaotic it can be. 
 
 \paragraph{Suggestions}
+Finally we have several things that we could have done to enhance the current codebase/database. After multiple tests, we think that splitting clients and staff member (\textit{e.g administrators}) into two tables might have been a good idea, for an admin should not be able to book a package and then mark the latter as "paid" manually (\textit{as of now an admin does not directly have access to the customers' homepage}). Next we could have stored images for travel packages in the database. Yet we did not have enough to add this feature through the back and front-end, and to make it so the database stays normalized. Finally we could have added a system to display reviews for a package.
 
 %-----------------------------------------------
 \newpage
@@ -185,7 +211,7 @@ In conclusion,
 	\begin{itemize}
 		\item \underline{Database client version}: libmysql - mysqlnd 8.3.6
 	\end{itemize}
-	\item PHP 8.3.6 \cite{php} 
+	\item PHP 8.3.6 
 	\begin{itemize}
 		\item mysqli
 		\item curl
@@ -193,14 +219,14 @@ In conclusion,
 		\item sodium
 	\end{itemize}
 	\item phpMyAdmin 5.2.1deb3
-	\item PhpStorm 2024 \cite{phpstorm}
+	\item PhpStorm 2024
 \end{itemize}
 
 \section{How to connect to the database?} \label{DB_Connect}
 \paragraph{}
 As of \today, the IP address of the server is \verb|90.100.91.219|. Also the server will be unplugged on December 1, 2024 at noon. Therefore you may try to access it remotely. However if you may prefer to upload the database on your localhost, there are some variables that need to be updated.
 \paragraph{}
-First start your Apache Server and import \verb|martine_travels.sql| into your PhpMyAdmin. Then open the file \verb|site/connection.php| and change its content to:
+First start your Apache Server and import \verb|martine_travels.sql| into your PhpMyAdmin. Then open the file \verb|site/connection.php| and change its content to (\textit{assuming there is a user } \verb|root| \textit{with no password}):
 
 \begin{verbatim}
 <?php
@@ -214,12 +240,5 @@ function get_dbhandle(): PDO
 }
 ?>
 \end{verbatim}
-
-\section{PHP Configuration on Windows}
-
-%-----------------------------------------------
-\newpage
-\bibliographystyle{plain}
-\bibliography{refs}
 
 \end{document}
