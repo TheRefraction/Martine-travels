@@ -211,3 +211,59 @@ header a:hover {
 .table_design tbody tr:last-of-type {
     border-bottom: 2px solid #ACFFFC;
 }
+.payment-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    width: 400px;
+    text-align: center;
+}
+
+.payment-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #5e3ea1;
+}
+
+.payment-container label {
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 14px;
+    color: #555555;
+}
+
+.payment-container select,
+.payment-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.payment-container select:hover,
+.payment-container select:focus,
+.payment-container input[type="submit"]:hover {
+    border-color: #5e3ea1;
+    outline: none;
+}
+
+.payment-container input[type="submit"] {
+    background-color: #5e3ea1;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.payment-container input[type="submit"]:hover {
+    background-color: #8f6ce6;
+}
+
+.payment-container p {
+    color: #ff4d4d;
+    font-size: 14px;
+}

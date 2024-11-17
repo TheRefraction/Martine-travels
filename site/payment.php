@@ -46,51 +46,51 @@ $paymentMethods = $paymentMethodsQuery->fetchAll(PDO::FETCH_ASSOC);
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-
-<h1>Select a Reservation and Payment Method</h1> <br>
-
-<?php
-if (empty($reservations)) {
-    echo "<p>No reservations available to pay.</p>";
-} else {
-    ?>
-
-    <form action="" method="POST">
-        <label for="reservation">Choose a reservation:</label>
-        <select name="reservation_id" id="reservation">
-            <option value="NULL">-- Select a reservation --</option>
-            <?php
-            foreach ($reservations as $reservation) {
-                echo '<option value="' . $reservation["Reservation_ID"] . '">' .
-                    $reservation["Package_Type"] . ' - ' .
-                    $reservation["Country"] . ' - ' .
-                    $reservation["Town"] . ' - ' .
-                    $reservation["Duration"] . ' days - ' .
-                    $reservation["Price"] . '€' .
-                    '</option>';
-            }
-            ?>
-        </select>
-
-        <br><br>
-
-        <label for="payment_method">Choose a payment method:</label>
-        <select name="payment_method" id="payment_method">
-            <option value="NULL">-- Select a payment method --</option>
-            <?php
-            foreach ($paymentMethods as $method) {
-                echo '<option value="' . $method["ID"] . '">' . $method["Name"] . '</option>';
-            }
-            ?>
-        </select>
-
-        <br><br>
-
-        <input type="submit" name="submit" value="Pay" />
-    </form>
+<div class="payment-container">
+    <h1>Select a Reservation and Payment Method</h1> <br>
 
     <?php
-}
+    if (empty($reservations)) {
+        echo "<p>No reservations available to pay.</p>";
+    } else {
+        ?>
+
+        <form action="" method="POST">
+            <label for="reservation">Choose a reservation:</label>
+            <select name="reservation_id" id="reservation">
+                <option value="NULL">-- Select a reservation --</option>
+                <?php
+                foreach ($reservations as $reservation) {
+                    echo '<option value="' . $reservation["Reservation_ID"] . '">' .
+                        $reservation["Package_Type"] . ' - ' .
+                        $reservation["Country"] . ' - ' .
+                        $reservation["Town"] . ' - ' .
+                        $reservation["Duration"] . ' days - ' .
+                        $reservation["Price"] . '€' .
+                        '</option>';
+                }
+                ?>
+            </select>
+
+            <br><br>
+
+            <label for="payment_method">Choose a payment method:</label>
+            <select name="payment_method" id="payment_method">
+                <option value="NULL">-- Select a payment method --</option>
+                <?php
+                foreach ($paymentMethods as $method) {
+                    echo '<option value="' . $method["ID"] . '">' . $method["Name"] . '</option>';
+                }
+                ?>
+            </select>
+
+            <br><br>
+
+            <input type="submit" name="submit" value="Pay" />
+        </form>
+
+        <?php
+    }
 
 if (isset($_POST['submit'])) {
     $reservationID = $_POST['reservation_id'];
@@ -216,6 +216,6 @@ if (isset($_POST['submit'])) {
     <?php
 }
 ?>
-
+</div>
 </body>
 </html>
