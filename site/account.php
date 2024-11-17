@@ -63,7 +63,7 @@
                 </thead>
                 <tbody>
                 <?php
-                // Assurez-vous de récupérer l'ID de la réservation
+
                 $req = $bdd->prepare("SELECT Re.ID as Reservation_ID, Pa.Duration, Ac.Name, Pa.Price 
                           FROM Reservation Re 
                           INNER JOIN Package Pa ON Re.Package_ID = Pa.ID 
