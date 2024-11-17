@@ -133,18 +133,18 @@ if (!isset($_SESSION['email'])) {
         </form>
         <script>
             function afficherLabel() {
-                // Récupère l'élément select et les labels
+
                 const select = document.getElementById('options');
                 const labelCustom = document.getElementById('labelCustom');
                 const labelPremade = document.getElementById('labelPremade');
                 const paysSelect = document.getElementById("pays");
                 const accommodationSelect = document.getElementById("accomodation");
 
-                // Réinitialise l'affichage des labels
+
                 labelCustom.hidden = true;
                 labelPremade.hidden = true;
 
-                // Affiche le label approprié en fonction de l'option sélectionnée
+
                 if (select.value === 'custom') {
                     labelCustom.hidden = false;
                 } else if (select.value === 'premade') {
@@ -159,7 +159,7 @@ if (!isset($_SESSION['email'])) {
                 const accommodationDiv = document.getElementById("div_accomodation");
                 accommodationDiv.hidden =true;
 
-                //remove precedent options
+
                 for (let i = accommodationSelect.options.length - 1; i >= 0; i--) {
                     if (accommodationSelect.options[i].value !== "NULL") {
                         accommodationSelect.remove(i);
@@ -175,7 +175,7 @@ if (!isset($_SESSION['email'])) {
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(item => {
-                                //Add the new option
+
                                 let option = document.createElement("option");
                                 option.value = item.ID;
                                 option.textContent = item.Name;
@@ -194,7 +194,7 @@ if (!isset($_SESSION['email'])) {
 
                 detailDiv.hidden = true;
 
-                //remove precedent options
+
                 for (let i = detailSelect.options.length - 1; i >= 0; i--) {
                     if (detailSelect.options[i].value !== "NULL") {
                         detailSelect.remove(i);

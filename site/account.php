@@ -17,6 +17,17 @@
     $data = $req->fetch();
     $userName = $data['First_name'];
     $userID = $data['ID'];
+
+    $ID = $_SESSION['ID'];
+    $pdo = get_dbhandle();
+    $stmt = $pdo->prepare("SELECT Is_Admin FROM User WHERE ID = :id");
+    $stmt->bindParam(':id', $ID, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result['Is_Admin'] == 1) {
+        header("Location: admin/admin.php");
+        exit();}
 ?>
 
 <!DOCTYPE html>

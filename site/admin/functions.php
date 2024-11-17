@@ -102,7 +102,7 @@ function DisplayForm($table, $id = null) {
             if (strpos($columnType, 'timestamp') !== false) {
                 $inputType = 'datetime-local';
                 if ($value) {
-                    $value = date('Y-m-d\TH:i', strtotime($value)); // Format datetime
+                    $value = date('Y-m-d\TH:i', strtotime($value));
                 }
             } elseif (strpos($columnType, 'date') !== false) {
                 $inputType = 'date';
