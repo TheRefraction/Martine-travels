@@ -52,32 +52,47 @@
 
                 ?>
 
-                <table class="table_design">
-                    <thead>
-                    <tr>
-                        <th>Destination</th>
-                        <th>Duration</th>
-                        <th>Price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
+            <table class="table_design">
+                <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Duration</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                // Assurez-vous de récupérer l'ID de la réservation
+                $req = $bdd->prepare("SELECT Re.ID as Reservation_ID, Pa.Duration, Ac.Name, Pa.Price 
+                          FROM Reservation Re 
+                          INNER JOIN Package Pa ON Re.Package_ID = Pa.ID 
+                          INNER JOIN Address Ad ON Ad.ID = Pa.Address_ID 
+                          INNER JOIN Address_Country Ac ON Ad.Country_ID = Ac.ID 
+                          WHERE Re.Status = 3 AND Re.Client_ID = ?");
+                $req->execute([$userID]);
 
-                    while($data = $req->fetch())
-                    {
-                        ?>
-                        <tr>
-                            <td><?php echo $data["Name"]; ?></td>
-                            <td><?php echo $data["Duration"]; ?> days</td>
-                            <td><?php echo $data["Price"]; ?>€</td>
-                        </tr>
-                        <?php
-
-                    }
-
+                while($data = $req->fetch()) {
                     ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($data["Name"]); ?></td>
+                        <td><?php echo htmlspecialchars($data["Duration"]); ?> days</td>
+                        <td><?php echo htmlspecialchars($data["Price"]); ?>€</td>
+                        <td>
 
+                            <form method="post" action="add_review.php">
+
+                                <input type="hidden" name="reservation_id" value="<?php echo $data['Reservation_ID']; ?>" />
+                                <input type="submit" name="add_review" value="Add Review" />
+                            </form>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                </tbody>
             </table>
+
 
         </section>
     </body>
